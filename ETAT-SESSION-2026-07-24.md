@@ -93,9 +93,16 @@
 1. ~~Valider la normalisation~~ ✅
 2. ~~Phase 2 : Cahier technique~~ ✅
 3. ~~Phase 3 : Scaffold Next.js~~ ✅
-4. **Phase 4** : Implémentation MVP (8 semaines)
-   - Auth + CRM + Omra/Hajj + Documents + Dashboard
-   - `cd ~/Documents/agence-pro && npm install && docker compose up -d`
+4. **Phase 4 : MVP — Code écrit, Build Vercel en cours de fix**
+   - Auth + CRM + Omra/Hajj + Dashboard = **57 fichiers, 10755 lignes**
+   - DB Neon connectée, env vars Vercel configurées
+   - **Blocage actuel :** erreurs TypeScript strict dans dashboard/page.tsx (types implicites) — 1 fix à faire
+   - GitHub: https://github.com/imadilyes97-ctrl/agencepRO
+   - Vercel: https://vercel.com/imad-s-projects31/agence-pro
+
+### Fix restants (5 min de travail)
+1. `dashboard/page.tsx:23` — ajouter types explicites aux variables `let dossiers`, `let activities`
+2. Eventuellement d'autres erreurs TS strict — à checker au prochain build
 
 ---
 
