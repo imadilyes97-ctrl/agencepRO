@@ -60,7 +60,7 @@ async function main() {
     create: {
       userId: admin.id,
       agenceId: agence.id,
-      roleId: adminRole.id,
+      role: { connect: { id: adminRole.id } },
     },
   });
   console.log(`✅ Assignment: Admin → ${agence.nom}`);
