@@ -146,7 +146,7 @@ export default function ClientsPage() {
           setPagination(json.meta);
         }
       } else {
-        showToast.error("Erreur", json.error || "Impossible de charger les clients");
+        showToast.error("Erreur", "success" in json && !json.success ? (json as { error: string }).error : "Impossible de charger les clients");
       }
     } catch {
       showToast.error("Erreur reseau", "Impossible de contacter le serveur");
