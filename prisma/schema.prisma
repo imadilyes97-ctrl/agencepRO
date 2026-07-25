@@ -1,7 +1,7 @@
 // ============================================================
 // AGENCE PRO — Schéma Prisma Complet
 // Source : 06-NORMALISATION.md (source de vérité)
-// Généré : 2026-07-24
+// Généré : 2026-07-25
 // ============================================================
 
 generator client {
@@ -134,7 +134,6 @@ enum NotificationStatut {
   ANNULEE
 }
 
-// === RÔLES ===
 enum RoleUser {
   SUPER_ADMIN
   ADMIN
@@ -147,17 +146,13 @@ enum RoleUser {
 }
 
 // === STATUTS ===
-  EN_ATTENTE_VERIFICATION
-  ACTIVE
-  SUSPENDUE
-  REJETEE
-  EN_ATTENTE_DOCUMENTS
 
 enum UserStatut {
   ACTIF
   INACTIF
   BLOQUE
 }
+
 
 enum ClientStatut {
   ACTIF
@@ -166,93 +161,7 @@ enum ClientStatut {
   BLACKLISTE
 }
 
-  PROSPECT
-  DEVIS
-  CONFIRME
-  EN_COURS
-  EN_ATTENTE_DOCUMENTS
-  DOSSIER_COMPLET
-  SOUMIS
-  EN_COURS_TRAITEMENT
-  APPROUVE
-  REFUSE
-  ENVOYE
-  TERMINE
-  PROBLEME
-  RESOLU
-  ANNULE
 
-  PROSPECT
-  DEVIS
-  CONFIRME
-  EN_ATTENTE_DOCUMENTS
-  DOSSIER_COMPLET
-  SOUMIS
-  EN_COURS_TRAITEMENT
-  APPROUVE
-  REFUSE
-  ENVOYE
-  TERMINE
-  PROBLEME
-  RESOLU
-  ANNULE
-
-  BROUILLON
-  EMISE
-  VALIDEE
-  PAYEE
-  PARTIELLEMENT_PAYEE
-  EN_RETARD
-  IMPAYEE
-  ANNULLEE
-
-  EN_ATTENTE
-  CONFIRME
-  REJETTE
-  ANNULE
-  REMBOURSE
-
-  BROUILLON
-  EN_COURS_REVISION
-  VALIDE
-  REJETTE
-  EXPIRE
-
-  FORMATION
-  COMPLET
-  EN_COURS
-  TERMINE
-  ANNULE
-
-  PLANIFIE
-  CONFIRME
-  EN_COURS
-  ANNULE
-  RETARDE
-  TERMINE
-
-  DISPONIBLE
-  OCCUPEE
-  RESERVEE
-  MAINTENANCE
-
-  EN_ATTENTE
-  APPROUVEE
-  REFUSEE
-
-  EN_ATTENTE
-  ENVOYEE
-  LUE
-  ECHEC
-  ANNULEE
-
-  TRIAL
-  ACTIVE
-  PAST_DUE
-  CANCELLED
-  EXPIRED
-
-// === TYPES ===
 enum TypeDossier {
   OMRA
   HAJJ
@@ -262,11 +171,13 @@ enum TypeDossier {
   GROUPE
 }
 
+
 enum TypeFacture {
   CLIENT
   FOURNISSEUR
   AVOIR
 }
+
 
 enum MethodePaiement {
   ESPECES
@@ -278,11 +189,13 @@ enum MethodePaiement {
   STRIPE
 }
 
+
 enum ClasseVol {
   ECONOMY
   PREMIUM
   BUSINESS
 }
+
 
 enum TypeChambre {
   SINGLE
@@ -291,6 +204,7 @@ enum TypeChambre {
   FAMILY
   SUITE
 }
+
 
 enum TypeDocument {
   PASSEPORT
@@ -308,6 +222,7 @@ enum TypeDocument {
   AUTRE
 }
 
+
 enum CategorieDepense {
   SALAIRES
   LOYER
@@ -320,6 +235,7 @@ enum CategorieDepense {
   AUTRE
 }
 
+
 enum CanalNotification {
   EMAIL
   WHATSAPP
@@ -327,6 +243,7 @@ enum CanalNotification {
   PUSH
   IN_APP
 }
+
 
 enum SourceAcquisition {
   BOCA_BOUCHE
@@ -337,16 +254,19 @@ enum SourceAcquisition {
   AUTRE
 }
 
+
 enum Civilite {
   MONSIEUR
   MADAME
   MADEMOISELLE
 }
 
+
 enum Sexe {
   HOMME
   FEMME
 }
+
 
 enum TypeVisa {
   TOURISTIQUE
@@ -357,6 +277,7 @@ enum TypeVisa {
   HAJJ
   OMRA
 }
+
 
 enum StatutSignature {
   EN_ATTENTE
@@ -594,19 +515,13 @@ model Dossier {
   id              String          @id @default(cuid())
   agenceId        String
   clientId        String
-  reference       String          @unique // D-YYYY-NNNNNN
   typeDossier     TypeDossier
   statut          DossierStatut   @default(PROSPECT)
-  intitule        String?         // Titre libre du dossier
-  destination     String          // Ville / pays de destination
   dateDepart      DateTime
   dateRetour      DateTime?
-  nbAdultes       Int             @default(1)
-  nbEnfants       Int             @default(0)
-  nbBebes         Int             @default(0)
   groupeId        String?
-  programmeId     String?
-  forfaitId       String?
+  programmeId     String?         // ← Incohérence n°5 résolue
+  forfaitId       String?         // ← Incohérence n°5 résolue
   hotelId         String?
   chambreId       String?
   volId           String?
@@ -615,7 +530,6 @@ model Dossier {
   montantRestant  Decimal         @default(0)
   devise          String          @default("DZD")
   notes           String?
-  tags            String[]
   checklistDeparts Json?          // Checklist de départ (JSON)
   estArchive      Boolean         @default(false)
   assigneA        String?         // agent userId
@@ -1347,4 +1261,3 @@ model SignatureSignataire {
 
   @@index([signatureId])
 }
-
