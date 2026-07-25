@@ -76,22 +76,17 @@ async function main() {
 
   // 5. Programme
   const existingProg = await prisma.programme.findFirst({
-    where: { agenceId: agence.id, titre: "Omra Ramadan 2026" },
+    where: { agenceId: agence.id },
   });
   if (!existingProg) {
     await prisma.programme.create({
       data: {
         agenceId: agence.id,
         code: "P-OMRA-2026",
-        titre: "Omra Ramadan 2026",
+        nom: "Omra Ramadan 2026",
         description: "Pèlerinage Omra pendant le mois de Ramadan",
-        destination: "La Mecque",
-        dureeJours: 14,
-        dateDebut: new Date("2026-03-01"),
-        dateFin: new Date("2026-03-15"),
-        prixVente: 350000,
-        inclus: ["Vol aller-retour", "Hôtel 4*", "Transferts", "Assurance"],
-        nonInclus: ["Visa", "Dépenses personnelles"],
+        villeDepart: "Alger",
+        villeArrivee: "La Mecque",
         statut: "PUBLIE",
       },
     });
