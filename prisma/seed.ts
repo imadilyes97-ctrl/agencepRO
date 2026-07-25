@@ -1,3 +1,7 @@
+/**
+ * Seed script — run manually with: npx prisma db seed
+ * Only creates the minimum demo data needed for first login.
+ */
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -5,7 +9,6 @@ const prisma = new PrismaClient();
 async function main() {
   console.log("🌱 Seeding Agence Pro...\n");
 
-  // 1. Agence
   const agence = await prisma.agence.upsert({
     where: { email: "demo@agencepro.dz" },
     update: {},
@@ -25,7 +28,6 @@ async function main() {
   });
   console.log(`✅ Agence: ${agence.nom}`);
 
-  // 2. Admin user
   const admin = await prisma.user.upsert({
     where: { email: "admin@agencepro.dz" },
     update: {},
@@ -40,7 +42,6 @@ async function main() {
   });
   console.log(`✅ Admin: ${admin.prenom} ${admin.nom}`);
 
-  // 3. Assignment
   const existing = await prisma.userAgenceAssignment.findFirst({
     where: { userId: admin.id, agenceId: agence.id },
   });
@@ -48,58 +49,8 @@ async function main() {
     await prisma.userAgenceAssignment.create({
       data: { userId: admin.id, agenceId: agence.id, role: "ADMIN" },
     });
-    console.log(`✅ Assignment: Admin → ${agence.nom}`);
   }
-
-  // 4. Clients
-  const clients = [
-    { nom: "Benali", prenom: "Mohamed", telephonePrincipal: "+213555100001", email: "m.benali@email.com" },
-    { nom: "Khelifi", prenom: "Amina", telephonePrincipal: "+213555100002", email: "a.khelifi@email.com" },
-    { nom: "Meziane", prenom: "Youcef", telephonePrincipal: "+213555100003", email: null as string | null },
-  ];
-
-  for (let i = 0; i < clients.length; i++) {
-    const existing = await prisma.client.findFirst({
-      where: { agenceId: agence.id, nom: clients[i].nom, prenom: clients[i].prenom },
-    });
-    if (!existing) {
-      await prisma.client.create({
-        data: {
-          agenceId: agence.id,
-          numeroClient: `CLT-${String(i + 1).padStart(4, "0")}`,
-          ...clients[i],
-        },
-      });
-      console.log(`✅ Client: ${clients[i].prenom} ${clients[i].nom}`);
-    }
-  }
-
-  // 5. Programme
-  const existingProg = await prisma.programme.findFirst({
-    where: { agenceId: agence.id },
-  });
-  if (!existingProg) {
-    await prisma.programme.create({
-      data: {
-        agenceId: agence.id,
-        nom: "Omra Ramadan 2026",
-        description: "Pèlerinage Omra pendant le mois de Ramadan",
-        dateDepart: new Date("2026-03-01"),
-        dateRetour: new Date("2026-03-15"),
-        villeDepart: "Alger",
-        villeArrivee: "La Mecque",
-        nbNuits: 13,
-        guideInclus: true,
-        mealsInclus: "Pension complète",
-        prixParPersonne: 350000,
-        devise: "DZD",
-        capaciteMax: 40,
-        placesRestantes: 40,
-        statut: "ACTIF",
-      },
-    });
-    console.log(`✅ Programme: Omra Ramadan 2026`);
-  }
+  console.log(`✅ Assignment OK`);
 
   console.log("\n🎉 Seed terminé !");
 }
