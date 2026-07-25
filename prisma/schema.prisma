@@ -311,30 +311,44 @@ model Agence {
   updatedAt         DateTime        @updatedAt
 
   // Relations
-  users             User[]
-  clients           Client[]
-  dossiers          Dossier[]
-  groupes           Groupe[]
-  hotels            Hotel[]
-  factures          Facture[]
-  paiements         Paiement[]
-  depenses          Depense[]
-  documents         Document[]
-  programmes        Programme[]
-  forfaits          Forfait[]
-  produits          Produit[]
-  catalogues        Catalogue[]
-  reservations      Reservation[]
-  visas             Visa[]
-  vols              Vol[]
-  transferts        Transfer[]
-  notifications     Notification[]
-  conversations     Conversation[]
-  settings_agence   Settings[]
-  subscriptions     Subscription[]
-  auditLogs         AuditLog[]
-  historiques       HistoriqueAction[]
-  journalComptable  JournalComptable[]
+  users                      User[]
+  clients                    Client[]
+  clientContacts             ClientContact[]
+  dossiers                   Dossier[]
+  groupes                    Groupe[]
+  hotels                     Hotel[]
+  chambres                   Chambre[]
+  factures                   Facture[]
+  lignesFacture              LigneFacture[]
+  paiements                  Paiement[]
+  depenses                   Depense[]
+  recettes                   Recette[]
+  documents                  Document[]
+  documentCategories         DocumentCategory[]
+  programmes                 Programme[]
+  forfaits                   Forfait[]
+  produits                   Produit[]
+  catalogues                 Catalogue[]
+  reservations               Reservation[]
+  visas                      Visa[]
+  visaDocuments              VisaDocument[]
+  vols                       Vol[]
+  transferts                 Transfer[]
+  notifications              Notification[]
+  notificationTemplates      NotificationTemplate[]
+  conversations              Conversation[]
+  messages                   Message[]
+  settings                   Settings[]
+  subscriptions              Subscription[]
+  auditLogs                  AuditLog[]
+  historiques                HistoriqueAction[]
+  journalComptable           JournalComptable[]
+  avoirs                     Avoir[]
+  prestataires               Prestataire[]
+  signatures                 Signature[]
+  signaturesSignataires      SignatureSignataire[]
+  roleDefinitions            RoleDefinition[]
+  userAgenceAssignments      UserAgenceAssignment[]
 
   @@index([nom])
 }
@@ -362,6 +376,8 @@ model User {
   historiques     HistoriqueAction[]
   notifications   Notification[]
   auditLogs       AuditLog[]
+  assignments     UserAgenceAssignment[]
+  guidedGroupes   Groupe[]
 
   @@index([agenceId, role])
   @@index([agenceId, email])
@@ -466,6 +482,8 @@ model Client {
   documents           Document[]
   historiques         HistoriqueAction[]
   reservations        Reservation[]
+  visas               Visa[]
+  conversations       Conversation[]
 
   @@index([agenceId, nom])
   @@index([agenceId, telephonePrincipal])
@@ -584,6 +602,7 @@ model Programme {
 
   agence          Agence          @relation(fields: [agenceId], references: [id])
   dossiers        Dossier[]
+  groupes         Groupe[]
 
   @@index([agenceId, typeDossier])
 }
@@ -728,6 +747,7 @@ model Hotel {
   agence          Agence          @relation(fields: [agenceId], references: [id])
   chambres        Chambre[]
   dossiers        Dossier[]
+  reservations    Reservation[]
 
   @@index([agenceId, ville])
 }
@@ -871,6 +891,7 @@ model Facture {
   client          Client          @relation(fields: [clientId], references: [id])
   lignes          LigneFacture[]
   paiements       Paiement[]
+  avoirs          Avoir[]
 
   @@index([agenceId, statut])
   @@index([agenceId, clientId])
@@ -913,6 +934,7 @@ model Paiement {
   agence          Agence          @relation(fields: [agenceId], references: [id])
   client          Client          @relation(fields: [clientId], references: [id])
   facture         Facture?        @relation(fields: [factureId], references: [id])
+  dossier         Dossier?        @relation(fields: [dossierId], references: [id])
 
   @@index([agenceId, statut])
   @@index([agenceId, clientId])
@@ -1090,6 +1112,7 @@ model Conversation {
   updatedAt       DateTime        @updatedAt
 
   agence          Agence          @relation(fields: [agenceId], references: [id])
+  client          Client          @relation(fields: [clientId], references: [id])
   messages        Message[]
 
   @@index([agenceId, clientId])
