@@ -25,7 +25,7 @@ async function main() {
   });
   console.log(`✅ Agence: ${agence.nom} (${agence.id})`);
 
-  // 2. Create admin user
+  // 2. Create admin user (agenceId required by schema)
   const admin = await prisma.user.upsert({
     where: { email: "admin@agencepro.dz" },
     update: {},
@@ -34,7 +34,8 @@ async function main() {
       nom: "Admin",
       prenom: "Demo",
       passwordHash: "$2a$10$placeholder", // bcrypt hash of "demo1234"
-      role: "AGENT",
+      role: "ADMIN",
+      agenceId: agence.id,
     },
   });
   console.log(`✅ Admin: ${admin.prenom} ${admin.nom} (${admin.id})`);
