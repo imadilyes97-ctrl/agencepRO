@@ -40,27 +40,14 @@ async function main() {
   });
   console.log(`✅ Admin: ${admin.prenom} ${admin.nom} (${admin.id})`);
 
-  // 3. Create role definition (agenceId + role is unique)
-  const adminRole = await prisma.roleDefinition.upsert({
-    where: { agenceId_role: { agenceId: agence.id, role: "ADMIN" } },
-    update: {},
-    create: {
-      agenceId: agence.id,
-      role: "ADMIN",
-      label: "Administrateur",
-      permissions: JSON.stringify({ all: true }),
-    },
-  });
-  console.log(`✅ Role: ${adminRole.label}`);
-
-  // 4. Create user-agence assignment
+  // 3. Create user-agence assignment (role is an enum, not FK)
   await prisma.userAgenceAssignment.upsert({
     where: { userId_agenceId: { userId: admin.id, agenceId: agence.id } },
     update: {},
     create: {
       userId: admin.id,
       agenceId: agence.id,
-      role: { connect: { id: adminRole.id } },
+      role: "ADMIN",
     },
   });
   console.log(`✅ Assignment: Admin → ${agence.nom}`);
