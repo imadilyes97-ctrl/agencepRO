@@ -82,12 +82,20 @@ async function main() {
     await prisma.programme.create({
       data: {
         agenceId: agence.id,
-        code: "P-OMRA-2026",
         nom: "Omra Ramadan 2026",
         description: "Pèlerinage Omra pendant le mois de Ramadan",
+        dateDepart: new Date("2026-03-01"),
+        dateRetour: new Date("2026-03-15"),
         villeDepart: "Alger",
         villeArrivee: "La Mecque",
-        statut: "PUBLIE",
+        nbNuits: 13,
+        guideInclus: true,
+        mealsInclus: "Pension complète",
+        prixParPersonne: 350000,
+        devise: "DZD",
+        capaciteMax: 40,
+        placesRestantes: 40,
+        statut: "ACTIF",
       },
     });
     console.log(`✅ Programme: Omra Ramadan 2026`);
