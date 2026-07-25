@@ -338,7 +338,7 @@ model Agence {
   notificationTemplates      NotificationTemplate[]
   conversations              Conversation[]
   messages                   Message[]
-  settings                   Settings[]
+  agenceSettings             Settings[]
   subscriptions              Subscription[]
   auditLogs                  AuditLog[]
   historiques                HistoriqueAction[]
@@ -565,7 +565,6 @@ model Dossier {
   vol             Vol?            @relation(fields: [volId], references: [id])
   paiements       Paiement[]
   documents       Document[]
-  historiques     HistoriqueAction[]
   reservations    Reservation[]
   visa            Visa?
 
@@ -656,7 +655,7 @@ model Visa {
   id                String          @id @default(cuid())
   agenceId          String
   clientId          String
-  dossierId         String?
+  dossierId         String?         @unique
   typeVisa          TypeVisa
   paysDestination   String          // FR, IT, ES, etc.
   statut            VisaStatut      @default(PROSPECT)
@@ -675,6 +674,8 @@ model Visa {
   agence            Agence          @relation(fields: [agenceId], references: [id])
   client            Client          @relation(fields: [clientId], references: [id])
   dossier           Dossier?        @relation(fields: [dossierId], references: [id])
+
+  @@index([dossierId])
   documents         VisaDocument[]
 
   @@index([agenceId, statut])
