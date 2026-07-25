@@ -1,0 +1,1368 @@
+// ============================================================
+// AGENCE PRO — Schéma Prisma Complet
+// Source : 06-NORMALISATION.md (source de vérité)
+// Généré : 2026-07-24
+// ============================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ============================================================
+// ENUMS
+// ============================================================
+
+enum DossierStatut {
+  PROSPECT
+  DEVIS
+  CONFIRME
+  EN_COURS
+  EN_ATTENTE_DOCUMENTS
+  DOSSIER_COMPLET
+  SOUMIS
+  EN_COURS_TRAITEMENT
+  APPROUVE
+  REFUSE
+  ENVOYE
+  TERMINE
+  PROBLEME
+  RESOLU
+  ANNULE
+}
+
+enum FactureStatut {
+  BROUILLON
+  EMISE
+  VALIDEE
+  PAYEE
+  PARTIELLEMENT_PAYEE
+  EN_RETARD
+  IMPAYEE
+  ANNULLEE
+}
+
+enum PaiementStatut {
+  EN_ATTENTE
+  CONFIRME
+  REJETTE
+  ANNULE
+  REMBOURSE
+}
+
+enum VisaStatut {
+  PROSPECT
+  DEVIS
+  CONFIRME
+  EN_ATTENTE_DOCUMENTS
+  DOSSIER_COMPLET
+  SOUMIS
+  EN_COURS_TRAITEMENT
+  APPROUVE
+  REFUSE
+  ENVOYE
+  TERMINE
+  PROBLEME
+  RESOLU
+  ANNULE
+}
+
+enum DocumentStatut {
+  BROUILLON
+  EN_COURS_REVISION
+  VALIDE
+  REJETTE
+  EXPIRE
+}
+
+enum AgenceStatut {
+  EN_ATTENTE_VERIFICATION
+  ACTIVE
+  SUSPENDUE
+  REJETEE
+  EN_ATTENTE_DOCUMENTS
+}
+
+enum GroupeStatut {
+  FORMATION
+  COMPLET
+  EN_COURS
+  TERMINE
+  ANNULE
+}
+
+enum StatutChambre {
+  DISPONIBLE
+  OCCUPEE
+  RESERVEE
+  MAINTENANCE
+}
+
+enum VolStatut {
+  PLANIFIE
+  CONFIRME
+  EN_COURS
+  ANNULE
+  RETARDE
+  TERMINE
+}
+
+enum StatutDepense {
+  EN_ATTENTE
+  APPROUVEE
+  REFUSEE
+}
+
+enum SubscriptionStatut {
+  TRIAL
+  ACTIVE
+  PAST_DUE
+  CANCELLED
+  EXPIRED
+}
+
+enum NotificationStatut {
+  EN_ATTENTE
+  ENVOYEE
+  LUE
+  ECHEC
+  ANNULEE
+}
+
+// === RÔLES ===
+enum RoleUser {
+  SUPER_ADMIN
+  ADMIN
+  MANAGER
+  AGENT
+  COMPTABLE
+  GUIDE
+  COMMERCIAL
+  CLIENT
+}
+
+// === STATUTS ===
+enum AgenceStatut {
+  EN_ATTENTE_VERIFICATION
+  ACTIVE
+  SUSPENDUE
+  REJETEE
+  EN_ATTENTE_DOCUMENTS
+}
+
+enum UserStatut {
+  ACTIF
+  INACTIF
+  BLOQUE
+}
+
+enum ClientStatut {
+  ACTIF
+  INACTIF
+  BLOQUE
+  BLACKLISTE
+}
+
+enum DossierStatut {
+  PROSPECT
+  DEVIS
+  CONFIRME
+  EN_COURS
+  EN_ATTENTE_DOCUMENTS
+  DOSSIER_COMPLET
+  SOUMIS
+  EN_COURS_TRAITEMENT
+  APPROUVE
+  REFUSE
+  ENVOYE
+  TERMINE
+  PROBLEME
+  RESOLU
+  ANNULE
+}
+
+enum VisaStatut {
+  PROSPECT
+  DEVIS
+  CONFIRME
+  EN_ATTENTE_DOCUMENTS
+  DOSSIER_COMPLET
+  SOUMIS
+  EN_COURS_TRAITEMENT
+  APPROUVE
+  REFUSE
+  ENVOYE
+  TERMINE
+  PROBLEME
+  RESOLU
+  ANNULE
+}
+
+enum FactureStatut {
+  BROUILLON
+  EMISE
+  VALIDEE
+  PAYEE
+  PARTIELLEMENT_PAYEE
+  EN_RETARD
+  IMPAYEE
+  ANNULLEE
+}
+
+enum PaiementStatut {
+  EN_ATTENTE
+  CONFIRME
+  REJETTE
+  ANNULE
+  REMBOURSE
+}
+
+enum DocumentStatut {
+  BROUILLON
+  EN_COURS_REVISION
+  VALIDE
+  REJETTE
+  EXPIRE
+}
+
+enum GroupeStatut {
+  FORMATION
+  COMPLET
+  EN_COURS
+  TERMINE
+  ANNULE
+}
+
+enum VolStatut {
+  PLANIFIE
+  CONFIRME
+  EN_COURS
+  ANNULE
+  RETARDE
+  TERMINE
+}
+
+enum StatutChambre {
+  DISPONIBLE
+  OCCUPEE
+  RESERVEE
+  MAINTENANCE
+}
+
+enum StatutDepense {
+  EN_ATTENTE
+  APPROUVEE
+  REFUSEE
+}
+
+enum NotificationStatut {
+  EN_ATTENTE
+  ENVOYEE
+  LUE
+  ECHEC
+  ANNULEE
+}
+
+enum SubscriptionStatut {
+  TRIAL
+  ACTIVE
+  PAST_DUE
+  CANCELLED
+  EXPIRED
+}
+
+// === TYPES ===
+enum TypeDossier {
+  OMRA
+  HAJJ
+  TOURISME
+  VISA
+  CRUISE
+  GROUPE
+}
+
+enum TypeFacture {
+  CLIENT
+  FOURNISSEUR
+  AVOIR
+}
+
+enum MethodePaiement {
+  ESPECES
+  VIREMENT
+  CCP
+  BARIDIMOB
+  CIB
+  CHEQUE
+  STRIPE
+}
+
+enum ClasseVol {
+  ECONOMY
+  PREMIUM
+  BUSINESS
+}
+
+enum TypeChambre {
+  SINGLE
+  DOUBLE
+  TRIPLE
+  FAMILY
+  SUITE
+}
+
+enum TypeDocument {
+  PASSEPORT
+  CNI
+  VISA
+  PHOTO_IDENTITE
+  CERTIFICAT_VACCINATION
+  ATTESTATION_EMPLOI
+  RELEVE_BANCAIRE
+  ASSURANCE_VOYAGE
+  CONTRAT
+  FACTURE
+  BILLET_AVION
+  RESERVATION_HOTEL
+  AUTRE
+}
+
+enum CategorieDepense {
+  SALAIRES
+  LOYER
+  FOURNITURES
+  TRANSPORT
+  MARKETING
+  COMMUNICATION
+  ASSURANCE
+  IMPOTS
+  AUTRE
+}
+
+enum CanalNotification {
+  EMAIL
+  WHATSAPP
+  SMS
+  PUSH
+  IN_APP
+}
+
+enum SourceAcquisition {
+  BOCA_BOUCHE
+  INTERNET
+  RECOMMANDATION
+  SALON
+  PARTENAIRE
+  AUTRE
+}
+
+enum Civilite {
+  MONSIEUR
+  MADAME
+  MADEMOISELLE
+}
+
+enum Sexe {
+  HOMME
+  FEMME
+}
+
+enum TypeVisa {
+  TOURISTIQUE
+  AFFAIRES
+  MEDICAL
+  TRANSIT
+  ETUDIANT
+  HAJJ
+  OMRA
+}
+
+enum StatutSignature {
+  EN_ATTENTE
+  SIGNE
+  REFUSE
+  EXPIRE
+}
+
+
+// ============================================================
+// MODÈLES
+// ============================================================
+
+model Agence {
+  id                String          @id @default(cuid())
+  nom               String
+  nomCommercial     String
+  adresseSiege      String
+  wilaya            String
+  commune           String
+  rcNumber          String          @unique  // Registre de Commerce
+  nifNumber         String          @unique  // Numéro Identification Fiscale
+  nisNumber         String?                    // Numéro Identification Statistique
+  telephoneFixe     String
+  telephoneMobile   String
+  email             String          @unique
+  siteWeb           String?
+  logo              String?
+  statut            AgenceStatut    @default(EN_ATTENTE_VERIFICATION)
+  settings          Json?           // Config JSON (branding, fiscaux, etc.)
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  // Relations
+  users             User[]
+  clients           Client[]
+  dossiers          Dossier[]
+  groupes           Groupe[]
+  hotels            Hotel[]
+  factures          Facture[]
+  paiements         Paiement[]
+  depenses          Depense[]
+  documents         Document[]
+  programmes        Programme[]
+  forfaits          Forfait[]
+  produits          Produit[]
+  catalogues        Catalogue[]
+  reservations      Reservation[]
+  visas             Visa[]
+  vols              Vol[]
+  transferts        Transfer[]
+  notifications     Notification[]
+  conversations     Conversation[]
+  settings_agence   Settings[]
+  subscriptions     Subscription[]
+  auditLogs         AuditLog[]
+  historiques       HistoriqueAction[]
+  journalComptable  JournalComptable[]
+
+  @@index([nom])
+}
+
+model User {
+  id              String          @id @default(cuid())
+  agenceId        String
+  email           String          @unique
+  nom             String
+  prenom          String
+  telephone       String?
+  passwordHash    String
+  role            RoleUser
+  statut          UserStatut      @default(ACTIF)
+  avatar          String?
+  deuxFAActif     Boolean         @default(false)
+  deuxFASecret    String?
+  backupCodes     String?         // Hashé SHA-256
+  derniereConnexion DateTime?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  // Relations
+  agence          Agence          @relation(fields: [agenceId], references: [id])
+  historiques     HistoriqueAction[]
+  notifications   Notification[]
+  auditLogs       AuditLog[]
+
+  @@index([agenceId, role])
+  @@index([agenceId, email])
+}
+
+model RoleDefinition {
+  id              String          @id @default(cuid())
+  agenceId        String
+  role            RoleUser
+  label           String
+  description     String?
+  permissions     Json            // JSON des permissions granulaires
+  estPersonnalise Boolean         @default(false)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  agence          Agence          @relation(fields: [agenceId], references: [id])
+
+  @@unique([agenceId, role])
+}
+
+model UserAgenceAssignment {
+  id              String          @id @default(cuid())
+  userId          String
+  agenceId        String
+  role            RoleUser
+  estPrincipal    Boolean         @default(false)
+  createdAt       DateTime        @default(now())
+
+  user            User            @relation(fields: [userId], references: [id])
+  agence          Agence          @relation(fields: [agenceId], references: [id])
+
+  @@unique([userId, agenceId])
+}
+
+model Client {
+  id                  String          @id @default(cuid())
+  agenceId            String
+  numeroClient        String          @unique // CLT-AAAA-NNNNNN
+  civilite            Civilite?
+  nom                 String
+  prenom              String
+  telephonePrincipal  String
+  telephoneSecondaire String?
+  email               String?
+  dateNaissance       DateTime?
+  lieuNaissance       String?
+  sexe                Sexe?
+  nationalite         String          @default("DZ")
+  adresseComplete     String?
+  wilaya              String?
+  commune             String?
+  codePostal          String?
+  photoProfil         String?
+  statut              ClientStatut    @default(ACTIF)
+  sourceAcquisition   SourceAcquisition?
+  notes               String?
+  tags                String[]
+  segments            String[]
+  scoreFidelite       Int             @default(0)
+  niveauFidelite      String?         // BRONZE, ARGENT, OR, PLATINE, DIAMANT
+  nombreVoyages       Int             @default(0)
+  montantTotalDepense Decimal         @default(0)
+  dernierVoyageDate   DateTime?
+
+  // Documents d'identite
+  cniNumero           String?
+  cniDateEmission     DateTime?
+  cniDateExpiration   DateTime?
+  cniLieuEmission     String?
+  passeportNumero     String?         // ← Incohérence n°6 résolue
+  passeportDateEmission DateTime?     // ← Incohérence n°6 résolue
+  passeportDateExpiration DateTime?   // ← Incohérence n°6 résolue
+  passeportLieuEmission String?
+  passeportNationalite String?
+
+  // Contact d'urgence
+  contactUrgenceNom       String?
+  contactUrgenceLien      String?     // EPOUX, PARENT, FRERE_SOEUR, AMI, AUTRE
+  contactUrgenceTelephone String?
+  contactUrgenceEmail     String?
+
+  // Preferences
+  prefAlimentaires    String[]
+  prefChambre         String?         // SINGLE, DOUBLE, TWIN, FAMILY, SUITE
+  prefNiveauConfort   String?         // ECONOMIQUE, STANDARD, CONFORT, LUXE, PRESTIGE
+  prefBudgetMin       Decimal?
+  prefBudgetMax       Decimal?
+  prefLangue          String[]
+  notesPreferences    String?
+
+  assigneA            String?         // agent userId
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
+
+  // Relations
+  agence              Agence          @relation(fields: [agenceId], references: [id])
+  contacts            ClientContact[]
+  dossiers            Dossier[]
+  paiements           Paiement[]
+  factures            Facture[]
+  documents           Document[]
+  historiques         HistoriqueAction[]
+  reservations        Reservation[]
+
+  @@index([agenceId, nom])
+  @@index([agenceId, telephonePrincipal])
+  @@index([agenceId, email])
+}
+
+model ClientContact {
+  id              String          @id @default(cuid())
+  agenceId        String
+  clientId        String
+  nom             String
+  lien            String          // EPOUX, PARENT, FRERE_SOEUR, AMI, AUTRE
+  telephone       String
+  email           String?
+  createdAt       DateTime        @default(now())
+
+  client          Client          @relation(fields: [clientId], references: [id])
+  agence          Agence          @relation(fields: [agenceId], references: [id])
+
+  @@index([clientId])
+}
+
+model HistoriqueAction {
+  id              String          @id @default(cuid())
+  agenceId        String
+  userId          String?
+  action          String          // CONNEXION, CREATION, MODIFICATION, etc.
+  entityType      String          // CLIENT, DOSSIER, FACTURE, etc.
+  entityId        String
+  ancienneValeur  Json?
+  nouvelleValeur  Json?
+  details         Json?
+  ipAddress       String?
+  userAgent       String?
+  succes          Boolean         @default(true)
+  createdAt       DateTime        @default(now())
+
+  user            User?           @relation(fields: [userId], references: [id])
+  agence          Agence          @relation(fields: [agenceId], references: [id])
+  client          Client?         @relation(fields: [entityId], references: [id])
+
+  @@index([agenceId, entityType, entityId])
+  @@index([agenceId, createdAt])
+}
+
+model Dossier {
+  id              String          @id @default(cuid())
+  agenceId        String
+  clientId        String
+  typeDossier     TypeDossier
+  statut          DossierStatut   @default(PROSPECT)
+  dateDepart      DateTime
+  dateRetour      DateTime?
+  groupeId        String?
+  programmeId     String?         // ← Incohérence n°5 résolue
+  forfaitId       String?         // ← Incohérence n°5 résolue
+  hotelId         String?
+  chambreId       String?
+  volId           String?
+  montantTotal    Decimal         @default(0)
+  montantPaye     Decimal         @default(0)
+  montantRestant  Decimal         @default(0)
+  devise          String          @default("DZD")
+  notes           String?
+  checklistDeparts Json?          // Checklist de départ (JSON)
+  estArchive      Boolean         @default(false)
+  assigneA        String?         // agent userId
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  // Relations
+  agence          Agence          @relation(fields: [agenceId], references: [id])
+  client          Client          @relation(fields: [clientId], references: [id])
+  groupe          Groupe?         @relation(fields: [groupeId], references: [id])
+  programme       Programme?      @relation(fields: [programmeId], references: [id])
+  forfait         Forfait?        @relation(fields: [forfaitId], references: [id])
+  hotel           Hotel?          @relation(fields: [hotelId], references: [id])
+  chambre         Chambre?        @relation(fields: [chambreId], references: [id])
+  vol             Vol?            @relation(fields: [volId], references: [id])
+  paiements       Paiement[]
+  documents       Document[]
+  historiques     HistoriqueAction[]
+  reservations    Reservation[]
+  visa            Visa?
+
+  @@index([agenceId, statut])
+  @@index([agenceId, clientId])
+}
+
+model Programme {
+  id              String          @id @default(cuid())
+  agenceId        String
+  nom             String          // "Omra Ramadan 2026 — Package Standard"
+  typeDossier     TypeDossier     // OMRA, HAJJ, TOURISME, CRUISE
+  description     String?
+  dateDepart      DateTime
+  dateRetour      DateTime
+  villeDepart     String          // "ALG"
+  villeArrivee    String          // "JED"
+  hotelNom        String?
+  hotelEtoiles    Int?
+  chambreType     String?         // SINGLE, DOUBLE, TRIPLE, FAMILY, SUITE
+  nbNuits         Int
+  transport       String?         // Inclus: vol, transfer, etc.
+  guideInclus     Boolean         @default(false)
+  mealsInclus     String?         // FULL_BOARD, HALF_BOARD, BED_AND_BREAKFAST, SELF_CATERING
+  visitesIncluses String[]        // Liste des visites incluses
+  prixParPersonne Decimal
+  devise          String          @default("DZD")
+  capaciteMax     Int
+  placesRestantes Int
+  statut          String          @default("ACTIF") // ACTIF, COMPLET, INACTIF
+  notes           String?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  agence          Agence          @relation(fields: [agenceId], references: [id])
+  dossiers        Dossier[]
+
+  @@index([agenceId, typeDossier])
+}
+
+model Forfait {
+  id              String          @id @default(cuid())
+  agenceId        String
+  nom             String          // "Forfait Omra Standard 15 jours"
+  description     String?
+  typeDossier     TypeDossier
+  composants      Json            // [{ type: "VOL", description: "ALG→JED AR", montant: 85000 }, ...]
+  prixTotal       Decimal
+  devise          String          @default("DZD")
+  saison          String?         // HAUT_SEASON, BAS_SEASON, RAMADAN
+  dateValiditeDebut DateTime?
+  dateValiditeFin DateTime?
+  actif           Boolean         @default(true)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  agence          Agence          @relation(fields: [agenceId], references: [id])
+  dossiers        Dossier[]
+
+  @@index([agenceId, typeDossier])
+}
+
+model Groupe {
+  id              String          @id @default(cuid())
+  agenceId        String
+  nom             String          // "Omra Ramadan 2026 — Groupe 3"
+  typeDossier     TypeDossier
+  dateDepart      DateTime
+  dateRetour      DateTime?
+  capaciteMax     Int
+  guideId         String?
+  programmeId     String?
+  statut          GroupeStatut     @default(FORMATION)
+  notes           String?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  agence          Agence          @relation(fields: [agenceId], references: [id])
+  dossiers        Dossier[]
+  guide           User?           @relation(fields: [guideId], references: [id])
+  programme       Programme?      @relation(fields: [programmeId], references: [id])
+
+  @@index([agenceId, typeDossier])
+}
+
+model Visa {
+  id                String          @id @default(cuid())
+  agenceId          String
+  clientId          String
+  dossierId         String?
+  typeVisa          TypeVisa
+  paysDestination   String          // FR, IT, ES, etc.
+  statut            VisaStatut      @default(PROSPECT)
+  dateDepot         DateTime?
+  dateRetour        DateTime?
+  numeroVisa        String?
+  fraisConsulaires  Decimal         @default(0)
+  fraisAgence       Decimal         @default(0)
+  fraisTotal        Decimal         @default(0)
+  devise            String          @default("EUR")
+  notes             String?
+  assigneA          String?
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  agence            Agence          @relation(fields: [agenceId], references: [id])
+  client            Client          @relation(fields: [clientId], references: [id])
+  dossier           Dossier?        @relation(fields: [dossierId], references: [id])
+  documents         VisaDocument[]
+
+  @@index([agenceId, statut])
+  @@index([agenceId, clientId])
+}
+
+model VisaDocument {
+  id              String          @id @default(cuid())
+  agenceId        String
+  visaId          String
+  typeDocument    String          // PASSEPORT, PHOTO, JUSTIFICATIF_HEBERGEMENT, etc.
+  nomFichier      String
+  urlFichier      String
+  statut          DocumentStatut  @default(BROUILLON)
+  estObligatoire  Boolean         @default(true)
+  dateEmission    DateTime?
+  dateExpiration  DateTime?
+  commentaire     String?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  visa            Visa            @relation(fields: [visaId], references: [id])
+  agence          Agence          @relation(fields: [agenceId], references: [id])
+
+  @@index([visaId])
+}
+
+model Vol {
+  id              String          @id @default(cuid())
+  agenceId        String
+  compagnie       String
+  numeroVol       String
+  depart          String          // ALG
+  arrivee         String          // JED
+  dateDepart      DateTime
+  dateArrivee     DateTime
+  classe          ClasseVol       @default(ECONOMY)
+  prix            Decimal
+  devise          String          @default("DZD")
+  statut          VolStatut       @default(PLANIFIE)
+  placesDispo     Int?
+  notes           String?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  agence          Agence          @relation(fields: [agenceId], references: [id])
+  dossiers        Dossier[]
+  reservations    Reservation[]
+
+  @@index([agenceId, dateDepart])
+}
+
+model Hotel {
+  id              String          @id @default(cuid())
+  agenceId        String
+  nom             String
+  ville           String
+  pays            String
+  etoiles         Int?
+  adresse         String?
+  telephone       String?
+  email           String?
+  contact         String?
+  tarifNuit       Decimal?
+  devise          String          @default("USD")
+  actif           Boolean         @default(true)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  agence          Agence          @relation(fields: [agenceId], references: [id])
+  chambres        Chambre[]
+  dossiers        Dossier[]
+
+  @@index([agenceId, ville])
+}
+
+model Chambre {
+  id              String          @id @default(cuid())
+  agenceId        String
+  hotelId         String
+  numero          String
+  type            TypeChambre     @default(DOUBLE)
+  capacite        Int
+  etage           Int?
+  tarifNuit       Decimal
+  devise          String          @default("USD")
+  statut          StatutChambre   @default(DISPONIBLE)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  hotel           Hotel           @relation(fields: [hotelId], references: [id])
+  agence          Agence          @relation(fields: [agenceId], references: [id])
+  dossiers        Dossier[]
+
+  @@index([hotelId, statut])
+}
+
+model Transfer {
+  id              String          @id @default(cuid())
+  agenceId        String
+  type            String          // AEROPORT_HOTEL, HOTEL_AEROPORT, INTER_HOTEL, EXCURSION
+  lieuDepart      String
+  lieuArrivee     String
+  dateHeure       DateTime
+  vehicule        String?         // Minibus 15 places, Bus 50 places, etc.
+  placesMax       Int
+  prix            Decimal
+  devise          String          @default("DZD")
+  chauffeur       String?
+  telephone       String?
+  statut          String          @default("PLANIFIE") // PLANIFIE, CONFIRME, EN_COURS, TERMINE, ANNULE
+  notes           String?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  agence          Agence          @relation(fields: [agenceId], references: [id])
+  reservations    Reservation[]
+
+  @@index([agenceId, dateHeure])
+}
+
+model Reservation {
+  id              String          @id @default(cuid())
+  agenceId        String
+  clientId        String
+  dossierId       String?
+  type            String          // VOL, HOTEL, TRANSFER, VISITE
+  statut          String          @default("EN_ATTENTE") // EN_ATTENTE, CONFIRMEE, ANNULEE, REMBOURSEE
+  dateDebut       DateTime
+  dateFin         DateTime?
+  reference       String?         // Reference externe (PNR, booking ref)
+  montant         Decimal
+  devise          String          @default("DZD")
+  notes           String?
+  volId           String?
+  hotelId         String?
+  transferId      String?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  agence          Agence          @relation(fields: [agenceId], references: [id])
+  client          Client          @relation(fields: [clientId], references: [id])
+  dossier         Dossier?        @relation(fields: [dossierId], references: [id])
+  vol             Vol?            @relation(fields: [volId], references: [id])
+  hotel           Hotel?          @relation(fields: [hotelId], references: [id])
+  transfer        Transfer?       @relation(fields: [transferId], references: [id])
+
+  @@index([agenceId, statut])
+  @@index([agenceId, clientId])
+}
+
+model Produit {
+  id              String          @id @default(cuid())
+  agenceId        String
+  catalogueId     String?
+  nom             String
+  description     String?
+  type            String          // VOL, HOTEL, TRANSFER, VISITE, ASSURANCE, FORFAIT
+  prix            Decimal
+  devise          String          @default("DZD")
+  saison          String?         // HAUT_SEASON, BAS_SEASON, RAMADAN
+  actif           Boolean         @default(true)
+  metadata        Json?           // Champs spécifiques au type de produit
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  agence          Agence          @relation(fields: [agenceId], references: [id])
+  catalogue       Catalogue?      @relation(fields: [catalogueId], references: [id])
+
+  @@index([agenceId, type])
+}
+
+model Catalogue {
+  id              String          @id @default(cuid())
+  agenceId        String
+  nom             String
+  description     String?
+  saison          String?
+  dateDebut       DateTime?
+  dateFin         DateTime?
+  actif           Boolean         @default(true)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  agence          Agence          @relation(fields: [agenceId], references: [id])
+  produits        Produit[]
+
+  @@index([agenceId])
+}
+
+model Facture {
+  id              String          @id @default(cuid())
+  agenceId        String
+  clientId        String
+  dossierId       String?
+  numero          String          @unique // FACT-2026-0001
+  type            TypeFacture     @default(CLIENT)
+  statut          FactureStatut   @default(BROUILLON)
+  sousTotal       Decimal
+  tva             Decimal         @default(0)
+  tvaTaux         Decimal         @default(19) // TVA Algérie 19%
+  total           Decimal
+  devise          String          @default("DZD")
+  dateEmission    DateTime        @default(now())
+  dateEcheance    DateTime
+  datePaiement    DateTime?
+  notes           String?
+  estSigne        Boolean         @default(false)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  agence          Agence          @relation(fields: [agenceId], references: [id])
+  client          Client          @relation(fields: [clientId], references: [id])
+  lignes          LigneFacture[]
+  paiements       Paiement[]
+
+  @@index([agenceId, statut])
+  @@index([agenceId, clientId])
+}
+
+model LigneFacture {
+  id              String          @id @default(cuid())
+  agenceId        String
+  factureId       String
+  description     String
+  quantite        Int             @default(1)
+  prixUnitaire    Decimal
+  montant         Decimal
+  tvaApplicable   Boolean         @default(true)
+  createdAt       DateTime        @default(now())
+
+  facture         Facture         @relation(fields: [factureId], references: [id])
+  agence          Agence          @relation(fields: [agenceId], references: [id])
+
+  @@index([factureId])
+}
+
+model Paiement {
+  id              String          @id @default(cuid())
+  agenceId        String
+  clientId        String
+  factureId       String?
+  dossierId       String?
+  montant         Decimal
+  devise          String          @default("DZD")
+  methode         MethodePaiement
+  reference       String?
+  statut          PaiementStatut  @default(EN_ATTENTE)
+  datePaiement    DateTime        @default(now())
+  notes           String?
+  recuUrl         String?         // URL du reçu PDF
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  agence          Agence          @relation(fields: [agenceId], references: [id])
+  client          Client          @relation(fields: [clientId], references: [id])
+  facture         Facture?        @relation(fields: [factureId], references: [id])
+
+  @@index([agenceId, statut])
+  @@index([agenceId, clientId])
+}
+
+model Depense {
+  id              String          @id @default(cuid())
+  agenceId        String
+  categorie       CategorieDepense
+  description     String
+  montant         Decimal
+  devise          String          @default("DZD")
+  dateDepense     DateTime        @default(now())
+  justificatif    String?         // URL document
+  approuvePar     String?
+  statut          StatutDepense   @default(EN_ATTENTE)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  agence          Agence          @relation(fields: [agenceId], references: [id])
+
+  @@index([agenceId, categorie])
+  @@index([agenceId, dateDepense])
+}
+
+model Recette {
+  id              String          @id @default(cuid())
+  agenceId        String
+  source          String          // PAIEMENT_CLIENT, COMMISSION, AUTRE
+  description     String
+  montant         Decimal
+  devise          String          @default("DZD")
+  dateRecette     DateTime        @default(now())
+  reference       String?         // Lien vers facture/paiement
+  notes           String?
+  createdAt       DateTime        @default(now())
+
+  agence          Agence          @relation(fields: [agenceId], references: [id])
+
+  @@index([agenceId, dateRecette])
+}
+
+model Avoir {
+  id              String          @id @default(cuid())
+  agenceId        String
+  factureId       String          // Facture d'origine
+  numero          String          @unique // AVOIR-2026-0001
+  motif           String
+  montant         Decimal
+  devise          String          @default("DZD")
+  statut          String          @default("EMIS") // EMIS, APPLIQUE, ANNULE
+  dateEmission    DateTime        @default(now())
+  notes           String?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  agence          Agence          @relation(fields: [agenceId], references: [id])
+  facture         Facture         @relation(fields: [factureId], references: [id])
+
+  @@index([agenceId])
+}
+
+model JournalComptable {
+  id              String          @id @default(cuid())
+  agenceId        String
+  dateEcriture    DateTime        @default(now())
+  compteDebit     String          // Numéro compte algérien
+  compteCredit    String
+  libelle         String
+  montant         Decimal
+  devise          String          @default("DZD")
+  reference       String?         // Lien vers facture/paiement
+  estValide       Boolean         @default(false)
+  validePar       String?
+  dateValidation  DateTime?
+  createdAt       DateTime        @default(now())
+
+  agence          Agence          @relation(fields: [agenceId], references: [id])
+
+  @@index([agenceId, dateEcriture])
+  @@index([agenceId, compteDebit])
+}
+
+model Document {
+  id              String          @id @default(cuid())
+  agenceId        String
+  clientId        String?
+  dossierId       String?
+  categorie       String?         // IDENTITE, VOYAGE, FINANCIER, ADMINISTRATIF, CONTRACTUEL
+  type            TypeDocument
+  nomFichier      String
+  urlFichier      String
+  taille          Int?            // En octets
+  mimeType        String?
+  statut          DocumentStatut  @default(BROUILLON)
+  description     String?
+  dateEmission    DateTime?
+  dateExpiration  DateTime?
+  ocrResult       Json?           // Résultat OCR (champs extraits)
+  ocrConfiance    Decimal?        // Confiance OCR (0-100)
+  estSigne        Boolean         @default(false)
+  version         Int             @default(1)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  agence          Agence          @relation(fields: [agenceId], references: [id])
+  client          Client?         @relation(fields: [clientId], references: [id])
+  dossier         Dossier?        @relation(fields: [dossierId], references: [id])
+
+  @@index([agenceId, clientId])
+  @@index([agenceId, dossierId])
+  @@index([agenceId, type])
+}
+
+model DocumentCategory {
+  id              String          @id @default(cuid())
+  agenceId        String
+  nom             String
+  description     String?
+  ordre           Int             @default(0)
+  createdAt       DateTime        @default(now())
+
+  agence          Agence          @relation(fields: [agenceId], references: [id])
+
+  @@unique([agenceId, nom])
+}
+
+model Notification {
+  id              String          @id @default(cuid())
+  agenceId        String
+  userId          String?
+  destinataireType String         // USER, CLIENT
+  destinataireId  String
+  canal           CanalNotification
+  sujet           String
+  contenu         String
+  statut          NotificationStatut @default(EN_ATTENTE)
+  metadata        Json?           // Données supplémentaires (template ID, etc.)
+  envoyeLe        DateTime?
+  luLe            DateTime?
+  createdAt       DateTime        @default(now())
+
+  user            User?           @relation(fields: [userId], references: [id])
+  agence          Agence          @relation(fields: [agenceId], references: [id])
+
+  @@index([agenceId, destinataireType, destinataireId])
+  @@index([agenceId, statut])
+}
+
+model NotificationTemplate {
+  id              String          @id @default(cuid())
+  agenceId        String
+  nom             String          // "NOUVEAU_DOSSIER", "PAIEMENT_RECU", etc.
+  canal           CanalNotification
+  sujet           String?         // Sujet (pour email)
+  contenu         String          // Template avec variables {prenom}, {ref}, etc.
+  actif           Boolean         @default(true)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  agence          Agence          @relation(fields: [agenceId], references: [id])
+
+  @@unique([agenceId, nom, canal])
+}
+
+model Conversation {
+  id              String          @id @default(cuid())
+  agenceId        String
+  clientId        String
+  canal           CanalNotification // WHATSAPP, IN_APP, EMAIL
+  sujet           String?
+  statut          String          @default("OUVERTE") // OUVERTE, FERMEE
+  derniereActivite DateTime       @default(now())
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  agence          Agence          @relation(fields: [agenceId], references: [id])
+  messages        Message[]
+
+  @@index([agenceId, clientId])
+}
+
+model Message {
+  id              String          @id @default(cuid())
+  agenceId        String
+  conversationId  String
+  expediteurType  String          // USER, CLIENT, SYSTEM
+  expediteurId    String
+  contenu         String
+  lu              Boolean         @default(false)
+  pieceJointeUrl  String?
+  createdAt       DateTime        @default(now())
+
+  conversation    Conversation    @relation(fields: [conversationId], references: [id])
+  agence          Agence          @relation(fields: [agenceId], references: [id])
+
+  @@index([conversationId, createdAt])
+}
+
+model Settings {
+  id              String          @id @default(cuid())
+  agenceId        String
+  cle             String          // "TVA_TAUX", "DEVISE_DEFAUT", "LOGO_URL", etc.
+  valeur          String
+  description     String?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  agence          Agence          @relation(fields: [agenceId], references: [id])
+
+  @@unique([agenceId, cle])
+}
+
+model Plan {
+  id              String          @id @default(cuid())
+  nom             String          // "Starter", "Pro", "Enterprise"
+  description     String?
+  prixMensuel     Decimal
+  prixAnnuel      Decimal?
+  devise          String          @default("DZD")
+  limiteAgences   Int?
+  limiteUtilisateurs Int?
+  limiteStockageMo Int?
+  limiteRequetesIA Int?
+  modulesInclus   String[]        // Liste des modules inclus
+  actif           Boolean         @default(true)
+  ordre           Int             @default(0)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  subscriptions   Subscription[]
+
+  @@unique([nom])
+}
+
+model Subscription {
+  id              String          @id @default(cuid())
+  agenceId        String
+  planId          String
+  statut          SubscriptionStatut @default(TRIAL)
+  dateDebut       DateTime        @default(now())
+  dateFin         DateTime?
+  essaiGratuit    Boolean         @default(true)
+  dateFinEssai    DateTime?
+  stripeCustomerId String?
+  stripeSubscriptionId String?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  agence          Agence          @relation(fields: [agenceId], references: [id])
+  plan            Plan            @relation(fields: [planId], references: [id])
+
+  @@index([agenceId, statut])
+}
+
+model AuditLog {
+  id              String          @id @default(cuid())
+  agenceId        String
+  userId          String?
+  action          String          // CONNEXION, CREATION, MODIFICATION, SUPPRESSION, etc.
+  module          String          // AUTH, CRM, OMRA, FACTURATION, etc.
+  entityType      String          // CLIENT, DOSSIER, FACTURE, etc.
+  entityId        String
+  ancienneValeur  Json?
+  nouvelleValeur  Json?
+  ipAddress       String?
+  userAgent       String?
+  succes          Boolean         @default(true)
+  details         String?
+  createdAt       DateTime        @default(now())
+
+  user            User?           @relation(fields: [userId], references: [id])
+  agence          Agence          @relation(fields: [agenceId], references: [id])
+
+  @@index([agenceId, createdAt])
+  @@index([agenceId, entityType])
+  @@index([agenceId, action])
+}
+
+model Prestataire {
+  id              String          @id @default(cuid())
+  agenceId        String
+  type            String          // TRANSPORT, HOTEL, RESTAURANT, ASSURANCE, AUTRE
+  nom             String
+  contactNom      String?
+  telephone       String?
+  email           String?
+  adresse         String?
+  ville           String?
+  pays            String?
+  notes           String?
+  contratUrl      String?
+  actif           Boolean         @default(true)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  agence          Agence          @relation(fields: [agenceId], references: [id])
+
+  @@index([agenceId, type])
+}
+
+model Signature {
+  id                String          @id @default(cuid())
+  agenceId          String
+  documentId        String          // Document signé
+  dossierId         String?
+  statut            StatutSignature @default(EN_ATTENTE)
+  hashDocument      String          // SHA-256 du document original
+  hashSigne         String?         // Hash signé
+  horodatage        DateTime?       // Date/heure de la signature
+  horodatageExterne String?         // Timestamp RFC 3161
+  urlPdfSigne       String?         // URL du PDF signé
+  certificatId      String?         // Référence au certificat utilisé
+  ipAddress         String?
+  userAgent         String?
+  notes             String?
+  expireLe          DateTime?       // Date d'expiration de l'invitation
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  agence            Agence          @relation(fields: [agenceId], references: [id])
+  signataires       SignatureSignataire[]
+
+  @@index([agenceId, documentId])
+}
+
+model SignatureSignataire {
+  id              String          @id @default(cuid())
+  agenceId        String
+  signatureId     String
+  userId          String?         // Si c'est un utilisateur interne
+  clientId        String?         // Si c'est un client
+  nom             String
+  email           String
+  role            String          // "SIGNATAIRE", "TÉMOIN", "APPROBATEUR"
+  ordre           Int             @default(1) // Ordre de signature
+  statut          StatutSignature @default(EN_ATTENTE)
+  dateSignature   DateTime?
+  dessinSignature String?         // Données de signature dessinée (base64)
+  certificatId    String?
+  ipAddress       String?
+  createdAt       DateTime        @default(now())
+
+  signature       Signature       @relation(fields: [signatureId], references: [id])
+  agence          Agence          @relation(fields: [agenceId], references: [id])
+
+  @@index([signatureId])
+}
+

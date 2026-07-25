@@ -1,0 +1,130 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap");
+@import "tailwindcss";
+
+/* ============================================================
+   AGENCE PRO — Design Tokens
+   Source: 06-NORMALISATION.md §8 + CONSTITUTION.md §6
+   ============================================================ */
+
+@theme {
+  /* Primaire — Deep Teal */
+  --color-primary-50: #E8F4F4;
+  --color-primary-100: #C5E0E0;
+  --color-primary-200: #9FCACA;
+  --color-primary-300: #76B0B0;
+  --color-primary-400: #4F9696;
+  --color-primary-500: #1B4D4D;
+  --color-primary-600: #164040;
+  --color-primary-700: #103333;
+  --color-primary-800: #0B2626;
+  --color-primary-900: #061919;
+
+  /* Accent — Warm Gold */
+  --color-accent-50: #FBF6E9;
+  --color-accent-100: #F4E8C5;
+  --color-accent-200: #EDDA9E;
+  --color-accent-300: #E5CB76;
+  --color-accent-400: #DEBB4E;
+  --color-accent-500: #C9A94E;
+  --color-accent-600: #A68A3E;
+  --color-accent-700: #836C2F;
+  --color-accent-800: #604E20;
+  --color-accent-900: #3D3011;
+
+  /* Neutre — Cream */
+  --color-cream-50: #FDFBF7;
+  --color-cream-100: #FAF6EE;
+  --color-cream-200: #F5EEE0;
+  --color-cream-300: #EDE3CE;
+  --color-cream-400: #E0D3B8;
+  --color-cream-500: #D4C5A2;
+
+  /* Sémantique */
+  --color-success: #22C55E;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
+  --color-info: #3B82F6;
+
+  /* Typo */
+  --font-heading: "Inter", system-ui, sans-serif;
+  --font-body: "DM Sans", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  /* Espacement */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+
+  /* Border radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================================
+   BASE STYLES
+   ============================================================ */
+
+:root {
+  --bg-primary: #FDFBF7;
+  --bg-secondary: #FAF6EE;
+  --bg-card: #FFFFFF;
+  --border-primary: #EDE3CE;
+  --border-secondary: #E0D3B8;
+  --text-primary: #061919;
+  --text-secondary: #4F9696;
+  --text-muted: #9C8C6A;
+}
+
+[data-theme="dark"] {
+  --bg-primary: #0F1419;
+  --bg-secondary: #1A2332;
+  --bg-card: #1E2A3A;
+  --border-primary: #2D3E50;
+  --border-secondary: #3A4F66;
+  --text-primary: #F0F4F8;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+}
+
+html {
+  font-family: var(--font-body);
+  color: var(--text-primary);
+  background: var(--bg-primary);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-secondary);
+  border-radius: var(--radius-full);
+}
