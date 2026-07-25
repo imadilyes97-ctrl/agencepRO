@@ -5,10 +5,11 @@ const prisma = new PrismaClient();
 async function main() {
   console.log("🌱 Seeding Agence Pro...\n");
 
-  // 1. Create demo agence
-  const existingAgence = await prisma.agence.findFirst({ where: { email: "demo@agencepro.dz" } });
-  const agence = existingAgence ?? await prisma.agence.create({
-    data: {
+  // 1. Agence
+  const agence = await prisma.agence.upsert({
+    where: { email: "demo@agencepro.dz" },
+    update: {},
+    create: {
       nom: "Agence Pro Demo",
       nomCommercial: "Agence Pro",
       adresseSiege: "123 Rue Didouche Mourad, Alger Centre",
@@ -22,12 +23,13 @@ async function main() {
       statut: "ACTIVE",
     },
   });
-  console.log(`✅ Agence: ${agence.nom} (${agence.id})`);
+  console.log(`✅ Agence: ${agence.nom}`);
 
-  // 2. Create admin user
-  const existingUser = await prisma.user.findUnique({ where: { email: "admin@agencepro.dz" } });
-  const admin = existingUser ?? await prisma.user.create({
-    data: {
+  // 2. Admin user
+  const admin = await prisma.user.upsert({
+    where: { email: "admin@agencepro.dz" },
+    update: {},
+    create: {
       email: "admin@agencepro.dz",
       nom: "Admin",
       prenom: "Demo",
@@ -36,55 +38,48 @@ async function main() {
       agenceId: agence.id,
     },
   });
-  console.log(`✅ Admin: ${admin.prenom} ${admin.nom} (${admin.id})`);
+  console.log(`✅ Admin: ${admin.prenom} ${admin.nom}`);
 
-  // 3. Create user-agence assignment
-  const existingAssignment = await prisma.userAgenceAssignment.findFirst({
+  // 3. Assignment
+  const existing = await prisma.userAgenceAssignment.findFirst({
     where: { userId: admin.id, agenceId: agence.id },
   });
-  if (!existingAssignment) {
+  if (!existing) {
     await prisma.userAgenceAssignment.create({
-      data: {
-        userId: admin.id,
-        agenceId: agence.id,
-        role: "ADMIN",
-      },
+      data: { userId: admin.id, agenceId: agence.id, role: "ADMIN" },
     });
     console.log(`✅ Assignment: Admin → ${agence.nom}`);
   }
 
-  // 4. Create demo clients
+  // 4. Clients
   const clients = [
-    { nom: "Benali", prenom: "Mohamed", telephone: "+213555100001", email: "m.benali@email.com" },
-    { nom: "Khelifi", prenom: "Amina", telephone: "+213555100002", email: "a.khelifi@email.com" },
-    { nom: "Meziane", prenom: "Youcef", telephone: "+213555100003", email: null as string | null },
+    { nom: "Benali", prenom: "Mohamed", telephonePrincipal: "+213555100001", email: "m.benali@email.com" },
+    { nom: "Khelifi", prenom: "Amina", telephonePrincipal: "+213555100002", email: "a.khelifi@email.com" },
+    { nom: "Meziane", prenom: "Youcef", telephonePrincipal: "+213555100003", email: null as string | null },
   ];
 
   for (let i = 0; i < clients.length; i++) {
     const existing = await prisma.client.findFirst({
-      where: { agenceId: agence.id, telephone: clients[i].telephone },
+      where: { agenceId: agence.id, nom: clients[i].nom, prenom: clients[i].prenom },
     });
     if (!existing) {
-      const c = await prisma.client.create({
+      await prisma.client.create({
         data: {
           agenceId: agence.id,
-          code: `C-${String(i + 1).padStart(4, "0")}`,
-          nom: clients[i].nom,
-          prenom: clients[i].prenom,
-          telephone: clients[i].telephone,
-          email: clients[i].email,
+          numeroClient: `CLT-${String(i + 1).padStart(4, "0")}`,
+          ...clients[i],
         },
       });
-      console.log(`✅ Client: ${c.prenom} ${c.nom}`);
+      console.log(`✅ Client: ${clients[i].prenom} ${clients[i].nom}`);
     }
   }
 
-  // 5. Create demo programme
+  // 5. Programme
   const existingProg = await prisma.programme.findFirst({
-    where: { agenceId: agence.id, code: "P-OMRA-2026" },
+    where: { agenceId: agence.id, titre: "Omra Ramadan 2026" },
   });
   if (!existingProg) {
-    const programme = await prisma.programme.create({
+    await prisma.programme.create({
       data: {
         agenceId: agence.id,
         code: "P-OMRA-2026",
@@ -100,17 +95,12 @@ async function main() {
         statut: "PUBLIE",
       },
     });
-    console.log(`✅ Programme: ${programme.titre}`);
+    console.log(`✅ Programme: Omra Ramadan 2026`);
   }
 
   console.log("\n🎉 Seed terminé !");
 }
 
 main()
-  .catch((e) => {
-    console.error("❌ Seed error:", e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+  .catch((e) => { console.error("❌ Seed error:", e); process.exit(1); })
+  .finally(async () => { await prisma.$disconnect(); });
