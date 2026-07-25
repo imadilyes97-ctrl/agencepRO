@@ -40,13 +40,14 @@ async function main() {
   });
   console.log(`✅ Admin: ${admin.prenom} ${admin.nom} (${admin.id})`);
 
-  // 3. Create role definition
+  // 3. Create role definition (agenceId + role is unique)
   const adminRole = await prisma.roleDefinition.upsert({
-    where: { code_libelle: { code: "ADMIN", libelle: "Administrateur" } },
+    where: { agenceId_role: { agenceId: agence.id, role: "ADMIN" } },
     update: {},
     create: {
-      code: "ADMIN",
-      libelle: "Administrateur",
+      agenceId: agence.id,
+      role: "ADMIN",
+      label: "Administrateur",
       permissions: JSON.stringify({ all: true }),
     },
   });
