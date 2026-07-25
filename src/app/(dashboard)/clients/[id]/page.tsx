@@ -889,7 +889,7 @@ export default function ClientDetailPage({
                           Par {entry.user.prenom} {entry.user.nom}
                         </p>
                       )}
-                      {entry.nouvelleValeur &&
+                      {"nouvelleValeur" in entry && entry.nouvelleValeur &&
                         typeof entry.nouvelleValeur === "object" &&
                         entry.nouvelleValeur !== null && (
                           <div className="mt-2 rounded-[var(--radius-md)] bg-[var(--color-cream-50)] p-3 text-xs text-[var(--text-secondary)]">
