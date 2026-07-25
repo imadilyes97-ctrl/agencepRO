@@ -889,14 +889,6 @@ export default function ClientDetailPage({
                           Par {entry.user.prenom} {entry.user.nom}
                         </p>
                       )}
-                      {"nouvelleValeur" in entry && Boolean(entry.nouvelleValeur) &&
-                        typeof (entry as Record<string, unknown>).nouvelleValeur === "object" && (
-                          <div className="mt-2 rounded-[var(--radius-md)] bg-[var(--color-cream-50)] p-3 text-xs text-[var(--text-secondary)]">
-                            <pre className="whitespace-pre-wrap font-mono text-[11px]">
-                              {JSON.stringify(entry.nouvelleValeur as Record<string, unknown>, null, 2)}
-                            </pre>
-                          </div>
-                        )}
                     </div>
                   </div>
                 ))}
