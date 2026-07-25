@@ -51,7 +51,7 @@ async function main() {
       permissions: JSON.stringify({ all: true }),
     },
   });
-  console.log(`✅ Role: ${adminRole.libelle}`);
+  console.log(`✅ Role: ${adminRole.label}`);
 
   // 4. Create user-agence assignment
   await prisma.userAgenceAssignment.upsert({
