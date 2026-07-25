@@ -1,35 +1,48 @@
-/**
- * Dashboard layout — sidebar + topbar + content area.
- * Auth check happens here via middleware.
- */
+"use client";
+
+import { useState } from "react";
+import { Sidebar } from "@/components/layout/Sidebar";
+import { Topbar } from "@/components/layout/Topbar";
+import { cn } from "@/lib/utils";
+
+// ============================================================
+// Dashboard layout — sidebar + topbar + content area
+// Auth check happens here via middleware.
+// ============================================================
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   return (
-    <div className="flex h-screen overflow-hidden">
-      {/* Sidebar placeholder — Phase 4 */}
-      <aside className="hidden w-64 shrink-0 border-r border-[var(--border-primary)] bg-[var(--bg-card)] p-4 lg:block">
-        <div className="flex items-center gap-2 mb-8">
-          <div className="h-8 w-8 rounded-lg bg-[var(--color-primary-500)]" />
-          <span className="font-[family-name:var(--font-heading)] text-lg font-bold text-[var(--color-primary-500)]">
-            Agence Pro
-          </span>
-        </div>
-        <nav className="space-y-1">
-          {/* Nav items — Phase 4 */}
-        </nav>
-      </aside>
+    <div className="flex h-screen overflow-hidden bg-[var(--bg-primary)]">
+      {/* Mobile overlay */}
+      {mobileMenuOpen && (
+        <div
+          className="fixed inset-0 z-30 bg-black/40 transition-opacity md:hidden"
+          onClick={() => setMobileMenuOpen(false)}
+          aria-hidden="true"
+        />
+      )}
 
+      {/* Sidebar — desktop always visible, mobile as overlay */}
+      <div
+        className={cn(
+          "fixed inset-y-0 left-0 z-40 transform transition-transform duration-[var(--transition-normal)] md:static md:translate-x-0",
+          mobileMenuOpen ? "translate-x-0" : "-translate-x-full",
+        )}
+      >
+        <Sidebar />
+      </div>
+
+      {/* Main content area */}
       <div className="flex flex-1 flex-col overflow-hidden">
-        {/* Topbar placeholder — Phase 4 */}
-        <header className="flex h-14 shrink-0 items-center border-b border-[var(--border-primary)] bg-[var(--bg-card)] px-6">
-          <span className="text-sm text-[var(--text-muted)]">Dashboard</span>
-        </header>
+        <Topbar onMenuToggle={() => setMobileMenuOpen((o) => !o)} />
 
-        <main className="flex-1 overflow-y-auto p-6">{children}</main>
+        <main className="flex-1 overflow-y-auto p-4 md:p-6">{children}</main>
       </div>
     </div>
   );

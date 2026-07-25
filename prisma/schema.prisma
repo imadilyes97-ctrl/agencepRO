@@ -619,13 +619,19 @@ model Dossier {
   id              String          @id @default(cuid())
   agenceId        String
   clientId        String
+  reference       String          @unique // D-YYYY-NNNNNN
   typeDossier     TypeDossier
   statut          DossierStatut   @default(PROSPECT)
+  intitule        String?         // Titre libre du dossier
+  destination     String          // Ville / pays de destination
   dateDepart      DateTime
   dateRetour      DateTime?
+  nbAdultes       Int             @default(1)
+  nbEnfants       Int             @default(0)
+  nbBebes         Int             @default(0)
   groupeId        String?
-  programmeId     String?         // ← Incohérence n°5 résolue
-  forfaitId       String?         // ← Incohérence n°5 résolue
+  programmeId     String?
+  forfaitId       String?
   hotelId         String?
   chambreId       String?
   volId           String?
@@ -634,6 +640,7 @@ model Dossier {
   montantRestant  Decimal         @default(0)
   devise          String          @default("DZD")
   notes           String?
+  tags            String[]
   checklistDeparts Json?          // Checklist de départ (JSON)
   estArchive      Boolean         @default(false)
   assigneA        String?         // agent userId

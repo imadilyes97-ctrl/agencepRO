@@ -68,16 +68,34 @@
 
 ---
 
+## ✅ Phase 3 — Scaffold TERMINÉ
+
+- [x] **Scaffold Next.js 15** — 37 fichiers, 17368 lignes, commit `d5d79e6`
+  - package.json (Next.js 15, Prisma 6, Tailwind 4, NextAuth v5, 30+ deps)
+  - tsconfig.json (strict mode, paths @/*)
+  - next.config.ts (Sentry, server actions 10Mo)
+  - Prisma schema complet (1368 lignes, 38 modèles, 12 enums — depuis 06-NORMALISATION)
+  - Design tokens CSS (Deep Teal + Warm Gold + Cream + dark mode)
+  - App Router : layout root, dashboard layout sidebar+topbar, home page, dashboard KPIs
+  - Middleware auth (route protection placeholder)
+  - Lib : db.ts, utils.ts, constants.ts, errors.ts, rbac.ts (8 rôles × 20 ressources)
+  - Types partagés (ApiResponse, relations Prisma)
+  - Tests : vitest + utils.test.ts (4 tests)
+  - Seed démo : agence, admin, 3 clients, 1 programme Omra
+  - API : health endpoint
+  - Docker Compose (PostgreSQL 16 + Redis 7)
+  - README, .env.example, .prettierrc, .gitignore
+
+---
+
 ## 📋 PROCHAINES ÉTAPES
 
 1. ~~Valider la normalisation~~ ✅
 2. ~~Phase 2 : Cahier technique~~ ✅
-3. **Phase 3** : Scaffold du projet Next.js
-   - `npx create-next-app` + Prisma + Tailwind + NextAuth
-   - Schéma Prisma copy-paste depuis la normalisation
-   - Middleware auth + tenant resolution
+3. ~~Phase 3 : Scaffold Next.js~~ ✅
 4. **Phase 4** : Implémentation MVP (8 semaines)
    - Auth + CRM + Omra/Hajj + Documents + Dashboard
+   - `cd ~/Documents/agence-pro && npm install && docker compose up -d`
 
 ---
 
