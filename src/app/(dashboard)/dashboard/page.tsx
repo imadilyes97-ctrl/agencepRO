@@ -19,9 +19,9 @@ export const metadata = {
 };
 
 async function DashboardContent() {
-  let stats;
-  let dossiers;
-  let activities;
+  let stats: Awaited<ReturnType<typeof getDashboardStats>>;
+  let dossiers: Awaited<ReturnType<typeof getRecentDossiers>>;
+  let activities: Awaited<ReturnType<typeof getRecentActivity>>;
 
   try {
     [stats, dossiers, activities] = await Promise.all([
