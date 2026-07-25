@@ -894,7 +894,7 @@ export default function ClientDetailPage({
                         entry.nouvelleValeur !== null && (
                           <div className="mt-2 rounded-[var(--radius-md)] bg-[var(--color-cream-50)] p-3 text-xs text-[var(--text-secondary)]">
                             <pre className="whitespace-pre-wrap font-mono text-[11px]">
-                              {JSON.stringify(entry.nouvelleValeur, null, 2)}
+                              {JSON.stringify(entry.nouvelleValeur as Record<string, unknown>, null, 2)}
                             </pre>
                           </div>
                         )}
