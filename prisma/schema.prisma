@@ -147,13 +147,11 @@ enum RoleUser {
 }
 
 // === STATUTS ===
-enum AgenceStatut {
   EN_ATTENTE_VERIFICATION
   ACTIVE
   SUSPENDUE
   REJETEE
   EN_ATTENTE_DOCUMENTS
-}
 
 enum UserStatut {
   ACTIF
@@ -168,7 +166,6 @@ enum ClientStatut {
   BLACKLISTE
 }
 
-enum DossierStatut {
   PROSPECT
   DEVIS
   CONFIRME
@@ -184,9 +181,7 @@ enum DossierStatut {
   PROBLEME
   RESOLU
   ANNULE
-}
 
-enum VisaStatut {
   PROSPECT
   DEVIS
   CONFIRME
@@ -201,9 +196,7 @@ enum VisaStatut {
   PROBLEME
   RESOLU
   ANNULE
-}
 
-enum FactureStatut {
   BROUILLON
   EMISE
   VALIDEE
@@ -212,69 +205,52 @@ enum FactureStatut {
   EN_RETARD
   IMPAYEE
   ANNULLEE
-}
 
-enum PaiementStatut {
   EN_ATTENTE
   CONFIRME
   REJETTE
   ANNULE
   REMBOURSE
-}
 
-enum DocumentStatut {
   BROUILLON
   EN_COURS_REVISION
   VALIDE
   REJETTE
   EXPIRE
-}
 
-enum GroupeStatut {
   FORMATION
   COMPLET
   EN_COURS
   TERMINE
   ANNULE
-}
 
-enum VolStatut {
   PLANIFIE
   CONFIRME
   EN_COURS
   ANNULE
   RETARDE
   TERMINE
-}
 
-enum StatutChambre {
   DISPONIBLE
   OCCUPEE
   RESERVEE
   MAINTENANCE
-}
 
-enum StatutDepense {
   EN_ATTENTE
   APPROUVEE
   REFUSEE
-}
 
-enum NotificationStatut {
   EN_ATTENTE
   ENVOYEE
   LUE
   ECHEC
   ANNULEE
-}
 
-enum SubscriptionStatut {
   TRIAL
   ACTIVE
   PAST_DUE
   CANCELLED
   EXPIRED
-}
 
 // === TYPES ===
 enum TypeDossier {
@@ -388,7 +364,6 @@ enum StatutSignature {
   REFUSE
   EXPIRE
 }
-
 
 // ============================================================
 // MODÈLES
