@@ -34,7 +34,7 @@ async function main() {
       nom: "Admin",
       prenom: "Demo",
       passwordHash: "$2a$10$placeholder", // bcrypt hash of "demo1234"
-      roleSystem: "USER",
+      role: "AGENT",
     },
   });
   console.log(`✅ Admin: ${admin.prenom} ${admin.nom} (${admin.id})`);

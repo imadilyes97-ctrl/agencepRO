@@ -9,7 +9,7 @@ import {
   UnauthorizedError,
 } from "@/lib/errors";
 import { CreateClientSchema, ClientFilterSchema } from "@/schemas/client";
-import { generateRef, PAGE_SIZE } from "@/lib/constants";
+import { generateRef, PAGE_SIZE } from "@/lib/utils";
 import type { ApiResponse } from "@/types";
 
 // ── Helper: Extract session from cookie ───────────────────────
