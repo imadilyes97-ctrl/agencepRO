@@ -251,20 +251,15 @@ function factureStatutLabel(statut: string): "success" | "warning" | "danger" | 
 export default function ClientDetailPage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 }) {
   const router = useRouter();
-  const [clientId, setClientId] = useState<string>("");
+  const clientId = params.id;
   const [client, setClient] = useState<ClientData | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<TabId>("dossiers");
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
-
-  // Resolve params
-  useEffect(() => {
-    params.then(({ id }) => setClientId(id));
-  }, [params]);
 
   // ── Fetch client data ─────────────────────────────────────
 

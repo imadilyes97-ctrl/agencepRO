@@ -9,8 +9,10 @@ import {
   UnauthorizedError,
 } from "@/lib/errors";
 import { CreateClientSchema, ClientFilterSchema } from "@/schemas/client";
-import { generateRef, PAGE_SIZE } from "@/lib/utils";
+import { generateRef } from "@/lib/utils";
+import { PAGE_SIZE } from "@/lib/constants";
 import type { ApiResponse } from "@/types";
+import type { RoleUser } from "@prisma/client";
 
 // ── Helper: Extract session from cookie ───────────────────────
 
@@ -29,7 +31,7 @@ function getSessionUser(request: NextRequest) {
       email: decoded.email as string,
       nom: decoded.nom as string,
       prenom: decoded.prenom as string,
-      role: decoded.role as string,
+      role: decoded.role as RoleUser,
       agenceId: decoded.agenceId as string,
     };
   } catch {

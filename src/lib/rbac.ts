@@ -1,4 +1,6 @@
 import { ROLES } from "./constants";
+import { ForbiddenError } from "./errors";
+import type { RoleUser } from "@prisma/client";
 
 type Role = (typeof ROLES)[keyof typeof ROLES];
 
@@ -230,12 +232,11 @@ export function hasPermission(role: Role, action: Action, resource: Resource): b
  * Throws ForbiddenError if denied.
  */
 export function requirePermission(
-  userRole: string,
+  userRole: RoleUser,
   action: Action,
   resource: Resource,
 ): void {
   if (!hasPermission(userRole as Role, action, resource)) {
-    const { ForbiddenError } = require("./errors");
     throw new ForbiddenError(
       `Le rôle ${userRole} n'a pas l'action "${action}" sur "${resource}"`,
     );

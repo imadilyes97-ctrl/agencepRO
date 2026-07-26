@@ -122,21 +122,6 @@ export async function GET(
             fraisTotal: true,
           },
         },
-        historiques: {
-          where: { entityType: "DOSSIER" },
-          select: {
-            id: true,
-            action: true,
-            ancienneValeur: true,
-            nouvelleValeur: true,
-            details: true,
-            createdAt: true,
-            user: {
-              select: { nom: true, prenom: true },
-            },
-          },
-          orderBy: { createdAt: "desc" },
-        },
       },
     });
 
@@ -147,7 +132,13 @@ export async function GET(
       );
     }
 
-    return NextResponse.json({ success: true, data: dossier });
+    const historiques = await prisma.historiqueAction.findMany({
+      where: { entityId: id, entityType: "DOSSIER" },
+      include: { user: { select: { nom: true, prenom: true } } },
+      orderBy: { createdAt: "desc" },
+    });
+
+    return NextResponse.json({ success: true, data: { ...dossier, historiques } });
   } catch (error) {
     if (error instanceof AppError) {
       return NextResponse.json(

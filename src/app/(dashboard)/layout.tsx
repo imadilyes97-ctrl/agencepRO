@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Topbar } from "@/components/layout/Topbar";
+import { ToastProvider } from "@/components/ui/Toast";
 import { cn } from "@/lib/utils";
 
 // ============================================================
@@ -19,6 +20,8 @@ export default function DashboardLayout({
 
   return (
     <div className="flex h-screen overflow-hidden bg-[var(--bg-primary)]">
+      <ToastProvider />
+
       {/* Mobile overlay */}
       {mobileMenuOpen && (
         <div

@@ -20,7 +20,7 @@ export const DossierStatutEnum = z.enum([
   "ANNULE",
 ]);
 
-export const TypeDossierEnum = z.enum(["OMRA", "HAJJ", "TOURISME"]);
+export const TypeDossierEnum = z.enum(["OMRA", "HAJJ", "TOURISME", "VISA", "CRUISE", "GROUPE"]);
 
 // ── Display labels (FR) ────────────────────────────────────────
 
@@ -46,6 +46,9 @@ export const TYPE_DOSSIER_LABELS: Record<z.infer<typeof TypeDossierEnum>, string
   OMRA: "Omra",
   HAJJ: "Hajj",
   TOURISME: "Tourisme",
+  VISA: "Visa",
+  CRUISE: "Cruise",
+  GROUPE: "Groupe",
 };
 
 // ── Status transition rules ────────────────────────────────────

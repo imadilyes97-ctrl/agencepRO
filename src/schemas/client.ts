@@ -107,7 +107,7 @@ export const CreateClientSchema = z.object({
   // Preferences
   prefAlimentaires: z.array(z.string()).optional().default([]),
   prefChambre: z
-    .enum(["SINGLE", "DOUBLE", "TWIN", "FAMILY", "SUITE"])
+    .enum(["SINGLE", "DOUBLE", "TRIPLE", "FAMILY", "SUITE"])
     .optional(),
   prefNiveauConfort: z
     .enum(["ECONOMIQUE", "STANDARD", "CONFORT", "LUXE", "PRESTIGE"])

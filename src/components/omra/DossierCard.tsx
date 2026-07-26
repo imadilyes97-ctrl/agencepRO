@@ -38,6 +38,9 @@ const TYPE_DOSSIER_BADGE: Record<
   OMRA: { label: "Omra", className: "bg-emerald-50 text-emerald-700 ring-emerald-600/10" },
   HAJJ: { label: "Hajj", className: "bg-purple-50 text-purple-700 ring-purple-600/10" },
   TOURISME: { label: "Tourisme", className: "bg-sky-50 text-sky-700 ring-sky-600/10" },
+  VISA: { label: "Visa", className: "bg-amber-50 text-amber-700 ring-amber-600/10" },
+  CRUISE: { label: "Cruise", className: "bg-cyan-50 text-cyan-700 ring-cyan-600/10" },
+  GROUPE: { label: "Groupe", className: "bg-rose-50 text-rose-700 ring-rose-600/10" },
 };
 
 export function DossierCard({

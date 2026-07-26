@@ -9,6 +9,7 @@ import {
 } from "@/lib/errors";
 import { MAX_FILE_SIZE, ALLOWED_FILE_TYPES } from "@/lib/constants";
 import type { ApiResponse } from "@/types";
+import type { RoleUser } from "@prisma/client";
 
 // ── Helper: Extract session from cookie ───────────────────────
 
@@ -27,7 +28,7 @@ function getSessionUser(request: NextRequest) {
       email: decoded.email as string,
       nom: decoded.nom as string,
       prenom: decoded.prenom as string,
-      role: decoded.role as string,
+      role: decoded.role as RoleUser,
       agenceId: decoded.agenceId as string,
     };
   } catch {

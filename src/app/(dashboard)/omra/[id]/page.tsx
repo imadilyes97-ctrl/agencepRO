@@ -138,27 +138,18 @@ export default async function DossierDetailPage({ params }: DossierDetailPagePro
           fraisTotal: true,
         },
       },
-      historiques: {
-        where: { entityType: "DOSSIER" },
-        select: {
-          id: true,
-          action: true,
-          ancienneValeur: true,
-          nouvelleValeur: true,
-          details: true,
-          createdAt: true,
-          user: {
-            select: { nom: true, prenom: true },
-          },
-        },
-        orderBy: { createdAt: "desc" },
-      },
     },
   });
 
   if (!dossier) {
     notFound();
   }
+
+  const historiques = await prisma.historiqueAction.findMany({
+    where: { entityId: id, entityType: "DOSSIER" },
+    include: { user: { select: { nom: true, prenom: true } } },
+    orderBy: { createdAt: "desc" },
+  });
 
   // Serialize for client component
   const serialized = {
@@ -221,7 +212,7 @@ export default async function DossierDetailPage({ params }: DossierDetailPagePro
           fraisTotal: Number(dossier.visa.fraisTotal),
         }
       : null,
-    historiques: dossier.historiques.map((h) => ({
+    historiques: historiques.map((h) => ({
       ...h,
       createdAt: h.createdAt.toISOString(),
     })),

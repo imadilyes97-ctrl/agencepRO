@@ -10,6 +10,7 @@ import {
 } from "@/lib/errors";
 import { UpdateClientSchema } from "@/schemas/client";
 import type { ApiResponse } from "@/types";
+import type { RoleUser } from "@prisma/client";
 
 // ── Helper: Extract session from cookie ───────────────────────
 
@@ -26,7 +27,7 @@ function getSessionUser(request: NextRequest) {
       email: decoded.email as string,
       nom: decoded.nom as string,
       prenom: decoded.prenom as string,
-      role: decoded.role as string,
+      role: decoded.role as RoleUser,
       agenceId: decoded.agenceId as string,
     };
   } catch {
@@ -125,23 +126,6 @@ export async function GET(
             datePaiement: true,
           },
         },
-        historiques: {
-          orderBy: { createdAt: "desc" },
-          take: 30,
-          select: {
-            id: true,
-            action: true,
-            entityType: true,
-            ancienneValeur: true,
-            nouvelleValeur: true,
-            details: true,
-            succes: true,
-            createdAt: true,
-            user: {
-              select: { nom: true, prenom: true },
-            },
-          },
-        },
         contacts: true,
       },
     });
@@ -150,10 +134,18 @@ export async function GET(
       throw new NotFoundError("Client", id);
     }
 
+    // Fetch historiques separately since HistoriqueAction no longer has a direct relation to Client
+    const historiques = await prisma.historiqueAction.findMany({
+      where: { entityId: id, entityType: "CLIENT" },
+      include: { user: { select: { nom: true, prenom: true } } },
+      orderBy: { createdAt: "desc" },
+      take: 30,
+    });
+
     return NextResponse.json({
       success: true,
-      data: client,
-    } satisfies ApiResponse<typeof client>);
+      data: { ...client, historiques },
+    } satisfies ApiResponse<typeof client & { historiques: unknown[] }>);
   } catch (error) {
     return errorResponse(error);
   }

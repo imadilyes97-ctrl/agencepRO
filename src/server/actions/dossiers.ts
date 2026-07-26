@@ -13,7 +13,8 @@ import {
   type UpdateDossierStatutInput,
   type DossierFilters,
 } from "@/schemas/dossier";
-import { generateRef, PAGE_SIZE } from "@/lib/constants";
+import { generateRef } from "@/lib/utils";
+import { PAGE_SIZE } from "@/lib/constants";
 import { z } from "zod";
 import type { DossierStatut } from "@prisma/client";
 
@@ -432,21 +433,6 @@ export async function getDossier(id: string) {
           fraisTotal: true,
         },
       },
-      historiques: {
-        where: { entityType: "DOSSIER" },
-        select: {
-          id: true,
-          action: true,
-          ancienneValeur: true,
-          nouvelleValeur: true,
-          details: true,
-          createdAt: true,
-          user: {
-            select: { nom: true, prenom: true },
-          },
-        },
-        orderBy: { createdAt: "desc" },
-      },
     },
   });
 
@@ -454,7 +440,13 @@ export async function getDossier(id: string) {
     throw new NotFoundError("Dossier", id);
   }
 
-  return dossier;
+  const historiques = await prisma.historiqueAction.findMany({
+    where: { entityId: id, entityType: "DOSSIER" },
+    include: { user: { select: { nom: true, prenom: true } } },
+    orderBy: { createdAt: "desc" },
+  });
+
+  return { ...dossier, historiques };
 }
 
 /**

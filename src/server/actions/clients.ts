@@ -1,7 +1,8 @@
 "use server";
 
 import { prisma } from "@/lib/db";
-import { generateRef, PAGE_SIZE } from "@/lib/constants";
+import { generateRef } from "@/lib/utils";
+import { PAGE_SIZE } from "@/lib/constants";
 import {
   NotFoundError,
   ValidationError,
@@ -435,11 +436,6 @@ export async function getClientById(
           orderBy: { createdAt: "desc" },
           take: 5,
         },
-        historiques: {
-          orderBy: { createdAt: "desc" },
-          take: 20,
-          include: { user: { select: { nom: true, prenom: true } } },
-        },
         contacts: true,
         paiements: {
           orderBy: { createdAt: "desc" },
@@ -452,7 +448,15 @@ export async function getClientById(
       throw new NotFoundError("Client", id);
     }
 
-    return { success: true, data: client as unknown as Record<string, unknown> };
+    // Fetch historiques separately since HistoriqueAction no longer has a direct relation to Client
+    const historiques = await prisma.historiqueAction.findMany({
+      where: { entityId: id, entityType: "CLIENT" },
+      include: { user: { select: { nom: true, prenom: true } } },
+      orderBy: { createdAt: "desc" },
+      take: 20,
+    });
+
+    return { success: true, data: { ...client, historiques } as unknown as Record<string, unknown> };
   } catch (error) {
     return handleError(error);
   }

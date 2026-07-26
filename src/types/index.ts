@@ -18,6 +18,7 @@ import type {
   Programme,
   Forfait,
   Groupe,
+  RoleUser,
 } from "@prisma/client";
 
 // ── API Response Envelope ──────────────────────────────────────
@@ -40,19 +41,23 @@ export interface SessionUser {
   email: string;
   nom: string;
   prenom: string;
-  role: string;
+  role: RoleUser;
   agenceId: string;
 }
 
 // ── Dashboard KPIs ─────────────────────────────────────────────
 
+export interface DashboardKpi {
+  value: number;
+  trend: "up" | "down" | "flat";
+  changePercent: number;
+}
+
 export interface DashboardStats {
-  caMois: number;
-  caMoisPrecedent: number;
-  dossiersActifs: number;
-  clientsActifs: number;
-  facturesImpayees: number;
-  paiementsRecus: number;
+  caDuMois: DashboardKpi;
+  dossiersActifs: DashboardKpi;
+  clientsActifs: DashboardKpi;
+  impayes: DashboardKpi;
 }
 
 // ── Recherche & Filtres ────────────────────────────────────────
@@ -74,9 +79,8 @@ export type ClientWithDossiers = Client & { dossiers: Dossier[] };
 export type DossierWithClient = Dossier & { client: Client };
 export type DossierComplet = Dossier & {
   client: Client;
-  visa: Visa[];
-  vols: Vol[];
-  factures: Facture[];
+  visa: Visa | null;
+  vol: Vol | null;
   documents: Document[];
   groupe: Groupe | null;
   programme: Programme | null;
