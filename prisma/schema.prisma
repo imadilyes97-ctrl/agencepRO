@@ -523,7 +523,6 @@ model HistoriqueAction {
 
   user            User?           @relation(fields: [userId], references: [id])
   agence          Agence          @relation(fields: [agenceId], references: [id])
-  client          Client?         @relation(fields: [entityId], references: [id])
 
   @@index([agenceId, entityType, entityId])
   @@index([agenceId, createdAt])
@@ -535,11 +534,18 @@ model Dossier {
   clientId        String
   typeDossier     TypeDossier
   statut          DossierStatut   @default(PROSPECT)
+  reference       String?         @unique // REF-2026-0001
+  intitule        String?         // Titre du dossier ex: "Omra Ramadan — Famille Boulahia"
+  destination     String?         // "JEDDAH", "PARIS", etc.
+  nbAdultes       Int             @default(1)
+  nbEnfants       Int             @default(0)
+  nbBebes         Int             @default(0)
+  tags            String[]        @default([])
   dateDepart      DateTime
   dateRetour      DateTime?
   groupeId        String?
-  programmeId     String?         // ← Incohérence n°5 résolue
-  forfaitId       String?         // ← Incohérence n°5 résolue
+  programmeId     String?
+  forfaitId       String?
   hotelId         String?
   chambreId       String?
   volId           String?
@@ -570,6 +576,7 @@ model Dossier {
 
   @@index([agenceId, statut])
   @@index([agenceId, clientId])
+  @@index([agenceId, reference])
 }
 
 model Programme {
