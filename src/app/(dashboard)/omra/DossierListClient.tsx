@@ -22,9 +22,9 @@ import {
 
 interface SerializedDossier {
   id: string;
-  reference: string;
+  reference: string | null;
   intitule: string | null;
-  destination: string;
+  destination: string | null;
   typeDossier: TypeDossier;
   statut: DossierStatut;
   dateDepart: string;
