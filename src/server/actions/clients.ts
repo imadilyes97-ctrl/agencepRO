@@ -294,7 +294,7 @@ export async function updateClient(
           email: existing.email,
           telephone: existing.telephonePrincipal,
         },
-        nouvelleValeur: updateData,
+        nouvelleValeur: updateData as unknown as Record<string, string>,
       },
     });
 
