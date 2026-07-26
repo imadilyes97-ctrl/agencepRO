@@ -31,6 +31,18 @@ declare module "next-auth" {
   }
 }
 
+// Extend JWT types via module augmentation
+declare module "next-auth" {
+  interface JWT {
+    id?: string;
+    email?: string | null;
+    nom?: string;
+    prenom?: string;
+    role?: RoleUser;
+    agenceId?: string;
+  }
+}
+
 export const {
   handlers: { GET, POST },
   auth,
@@ -121,12 +133,12 @@ export const {
     },
     async session({ session, token }) {
       // Transférer les données du JWT vers la session
-      session.user.id = token.id;
-      session.user.email = token.email;
-      session.user.nom = token.nom;
-      session.user.prenom = token.prenom;
-      session.user.role = token.role;
-      session.user.agenceId = token.agenceId;
+      session.user.id = token.id as string;
+      session.user.email = token.email as string;
+      session.user.nom = token.nom as string;
+      session.user.prenom = token.prenom as string;
+      session.user.role = token.role as RoleUser;
+      session.user.agenceId = token.agenceId as string;
       return session;
     },
   },
