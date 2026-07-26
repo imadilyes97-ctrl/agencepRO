@@ -154,11 +154,12 @@ export function DossierTimeline({ entries, className }: DossierTimelineProps) {
         {entries.map((entry, index) => {
           const config = getActionConfig(entry.action);
           const Icon = config.icon;
-          const prevEntry = entries[index + 1];
+          const oldVal = (entry.ancienneValeur && typeof entry.ancienneValeur === "object" ? entry.ancienneValeur : null) as Record<string, unknown> | null;
+          const newVal = (entry.nouvelleValeur && typeof entry.nouvelleValeur === "object" ? entry.nouvelleValeur : null) as Record<string, unknown> | null;
           const showStatutChange =
             entry.action === "CHANGEMENT_STATUT" &&
-            entry.ancienneValeur?.statut &&
-            entry.nouvelleValeur?.statut;
+            oldVal?.statut &&
+            newVal?.statut;
 
           return (
             <div key={entry.id} className="relative flex gap-4 py-3">
@@ -191,15 +192,15 @@ export function DossierTimeline({ entries, className }: DossierTimelineProps) {
 
                 {showStatutChange &&
                   renderStatutChange(
-                    entry.ancienneValeur?.statut as string,
-                    entry.nouvelleValeur?.statut as string,
+                    String(oldVal?.statut),
+                    String(newVal?.statut),
                   )}
 
                 {renderNotes(entry)}
 
-                {entry.action === "MODIFICATION" && entry.details && (
+                {entry.action === "MODIFICATION" && entry.details && typeof entry.details === "object" && (
                   <div className="mt-2 text-xs text-[var(--text-muted)]">
-                    {Object.entries(entry.details).map(([key, value]) => (
+                    {Object.entries(entry.details as Record<string, unknown>).map(([key, value]) => (
                       <div key={key}>
                         <span className="font-medium">{key}:</span>{" "}
                         {String(value)}
