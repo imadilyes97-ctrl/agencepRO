@@ -322,7 +322,7 @@ export async function PUT(
           telephone: existing.telephonePrincipal,
           statut: existing.statut,
         },
-        nouvelleValeur: updateData,
+        nouvelleValeur: updateData as unknown as Record<string, string>,
       },
     });
 
