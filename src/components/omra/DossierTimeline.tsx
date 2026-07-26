@@ -197,7 +197,7 @@ export function DossierTimeline({ entries, className }: DossierTimelineProps) {
 
                 {renderNotes(entry)}
 
-                {entry.action === "MODIFICATION" && entry.details && typeof entry.details === "object" && (
+                {entry.action === "MODIFICATION" && entry.details && typeof entry.details === "object" ? (
                   <div className="mt-2 text-xs text-[var(--text-muted)]">
                     {Object.entries(entry.details as Record<string, unknown>).map(([key, value]) => (
                       <div key={key}>
@@ -206,7 +206,7 @@ export function DossierTimeline({ entries, className }: DossierTimelineProps) {
                       </div>
                     ))}
                   </div>
-                )}
+                ) : null}
               </div>
             </div>
           );
