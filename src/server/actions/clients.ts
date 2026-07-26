@@ -348,9 +348,7 @@ export async function deleteClient(
 export async function getClients(
   filters: ClientFilterInput,
   agenceId: string,
-): Promise<
-  ApiResponse<Record<string, unknown>[]>>
-> {
+): Promise<ApiResponse<Record<string, unknown>[]>> {
   try {
     const f = validateInput(ClientFilterSchema, filters);
 
