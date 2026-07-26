@@ -19,9 +19,9 @@ import {
 interface TimelineEntry {
   id: string;
   action: string;
-  ancienneValeur: Record<string, unknown> | null;
-  nouvelleValeur: Record<string, unknown> | null;
-  details: Record<string, unknown> | null;
+  ancienneValeur: unknown;
+  nouvelleValeur: unknown;
+  details: unknown;
   createdAt: Date | string;
   user: {
     nom: string;
@@ -120,10 +120,10 @@ function renderStatutChange(
 }
 
 function renderNotes(entry: TimelineEntry) {
-  const nv = entry.nouvelleValeur as Record<string, unknown> | null;
+  const nv = (entry.nouvelleValeur && typeof entry.nouvelleValeur === "object" ? entry.nouvelleValeur : null) as Record<string, unknown> | null;
   if (!nv) return null;
 
-  const notes = (nv.notes as string) || (entry.details?.motif as string);
+  const notes = (nv.notes as string) || ((entry.details && typeof entry.details === "object" && "motif" in entry.details ? (entry.details as Record<string, unknown>).motif : null) as string);
   if (!notes) return null;
 
   return (
