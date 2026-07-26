@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, use } from "react";
 import { useRouter } from "next/navigation";
 import {
   ArrowLeft,
@@ -251,10 +251,10 @@ function factureStatutLabel(statut: string): "success" | "warning" | "danger" | 
 export default function ClientDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
+  const { id: clientId } = use(params);
   const router = useRouter();
-  const clientId = params.id;
   const [client, setClient] = useState<ClientData | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<TabId>("dossiers");
