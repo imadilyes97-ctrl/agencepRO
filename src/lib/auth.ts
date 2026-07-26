@@ -31,17 +31,6 @@ declare module "next-auth" {
   }
 }
 
-declare module "next-auth/jwt" {
-  interface JWT {
-    id: string;
-    email: string;
-    nom: string;
-    prenom: string;
-    role: RoleUser;
-    agenceId: string;
-  }
-}
-
 export const {
   handlers: { GET, POST },
   auth,
