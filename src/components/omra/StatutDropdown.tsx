@@ -6,8 +6,9 @@ import {
   STATUT_COLORS,
   STATUT_LABELS,
   STATUT_TRANSITIONS,
-  type DossierStatutEnum,
+  DossierStatutEnum,
 } from "@/schemas/dossier";
+import type { z } from "zod";
 import type { DossierStatut } from "@prisma/client";
 import { ChevronDown, Check, Loader2 } from "lucide-react";
 
@@ -32,9 +33,9 @@ export function StatutDropdown({
   const [selectedForNotes, setSelectedForNotes] = useState<DossierStatut | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const validTransitions = STATUT_TRANSITIONS[currentStatut as DossierStatutEnum];
-  const currentColors = STATUT_COLORS[currentStatut as DossierStatutEnum];
-  const currentLabel = STATUT_LABELS[currentStatut as DossierStatutEnum] ?? currentStatut;
+  const validTransitions = STATUT_TRANSITIONS[currentStatut as z.infer<typeof DossierStatutEnum>];
+  const currentColors = STATUT_COLORS[currentStatut as z.infer<typeof DossierStatutEnum>];
+  const currentLabel = STATUT_LABELS[currentStatut as z.infer<typeof DossierStatutEnum>] ?? currentStatut;
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -145,8 +146,8 @@ export function StatutDropdown({
 
           <div className="max-h-64 overflow-y-auto p-1">
             {validTransitions.map((transition) => {
-              const colors = STATUT_COLORS[transition as DossierStatutEnum];
-              const label = STATUT_LABELS[transition as DossierStatutEnum] ?? transition;
+              const colors = STATUT_COLORS[transition as z.infer<typeof DossierStatutEnum>];
+              const label = STATUT_LABELS[transition as z.infer<typeof DossierStatutEnum>] ?? transition;
               const isPending = pendingStatut === transition;
 
               return (

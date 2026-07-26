@@ -1,7 +1,8 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { STATUT_LABELS, STATUT_COLORS, type DossierStatutEnum } from "@/schemas/dossier";
+import { STATUT_LABELS, STATUT_COLORS, DossierStatutEnum } from "@/schemas/dossier";
+import type { z } from "zod";
 import { formatDate } from "@/lib/utils";
 import {
   CircleDot,
@@ -78,8 +79,8 @@ function getActionConfig(action: string) {
 }
 
 function getStatutDisplay(statut: string) {
-  const label = STATUT_LABELS[statut as DossierStatutEnum] ?? statut;
-  const colors = STATUT_COLORS[statut as DossierStatutEnum];
+  const label = STATUT_LABELS[statut as z.infer<typeof DossierStatutEnum>] ?? statut;
+  const colors = STATUT_COLORS[statut as z.infer<typeof DossierStatutEnum>];
   return { label, colors };
 }
 

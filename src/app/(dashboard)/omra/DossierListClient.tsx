@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { DossierCard } from "@/components/omra/DossierCard";
 import { StatutBadge } from "@/components/omra/StatutBadge";
-import { STATUT_LABELS, STATUT_TRANSITIONS, type DossierStatutEnum } from "@/schemas/dossier";
+import { STATUT_LABELS, STATUT_TRANSITIONS, DossierStatutEnum } from "@/schemas/dossier";
+import type { z } from "zod";
 import type { DossierStatut, TypeDossier } from "@prisma/client";
 import {
   Search,
@@ -78,7 +79,7 @@ const STATUT_OPTIONS = Object.entries(STATUT_LABELS).map(([value, label]) => ({
 
 // ── Kanban columns ─────────────────────────────────────────────
 
-const KANBAN_COLUMNS: { statuts: DossierStatutEnum[]; title: string; color: string }[] = [
+const KANBAN_COLUMNS: { statuts: z.infer<typeof DossierStatutEnum>[]; title: string; color: string }[] = [
   {
     statuts: ["PROSPECT", "DEVIS"],
     title: "Prospection",

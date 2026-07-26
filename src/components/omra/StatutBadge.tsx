@@ -4,8 +4,9 @@ import { cn } from "@/lib/utils";
 import {
   STATUT_COLORS,
   STATUT_LABELS,
-  type DossierStatutEnum,
+  DossierStatutEnum,
 } from "@/schemas/dossier";
+import type { z } from "zod";
 import type { DossierStatut } from "@prisma/client";
 
 interface StatutBadgeProps {
@@ -21,8 +22,8 @@ const SIZE_CLASSES = {
 } as const;
 
 export function StatutBadge({ statut, size = "md", className }: StatutBadgeProps) {
-  const colors = STATUT_COLORS[statut as DossierStatutEnum];
-  const label = STATUT_LABELS[statut as DossierStatutEnum] ?? statut;
+  const colors = STATUT_COLORS[statut as z.infer<typeof DossierStatutEnum>];
+  const label = STATUT_LABELS[statut as z.infer<typeof DossierStatutEnum>] ?? statut;
 
   return (
     <span
