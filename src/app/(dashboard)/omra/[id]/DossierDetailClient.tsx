@@ -270,7 +270,7 @@ export function DossierDetailClient({ dossier }: DossierDetailClientProps) {
           </div>
           <p className="mt-1 text-sm text-[var(--text-muted)]">
             {dossier.reference} &middot;{" "}
-            {TYPE_DOSSIER_LABELS[dossier.typeDossier as z.infer<typeof DossierStatutEnum>] ?? dossier.typeDossier} &middot;{" "}
+            {TYPE_DOSSIER_LABELS[dossier.typeDossier as keyof typeof TYPE_DOSSIER_LABELS] ?? dossier.typeDossier} &middot;{" "}
             {dossier.client.prenom} {dossier.client.nom}
           </p>
           <div className="mt-2 flex flex-wrap items-center gap-3 text-sm text-[var(--text-secondary)]">
