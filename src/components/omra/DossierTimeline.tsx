@@ -190,11 +190,10 @@ export function DossierTimeline({ entries, className }: DossierTimelineProps) {
                   </p>
                 )}
 
-                {showStatutChange &&
-                  renderStatutChange(
+                {showStatutChange ? renderStatutChange(
                     String(oldVal?.statut),
                     String(newVal?.statut),
-                  )}
+                  ) : null}
 
                 {renderNotes(entry)}
 
