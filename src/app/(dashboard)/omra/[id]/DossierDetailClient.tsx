@@ -152,9 +152,9 @@ interface SerializedDossier {
   historiques: {
     id: string;
     action: string;
-    ancienneValeur: Record<string, unknown> | null;
-    nouvelleValeur: Record<string, unknown> | null;
-    details: Record<string, unknown> | null;
+    ancienneValeur: unknown;
+    nouvelleValeur: unknown;
+    details: unknown;
     createdAt: string;
     user: { nom: string; prenom: string } | null;
   }[];
